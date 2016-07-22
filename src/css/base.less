@@ -1,0 +1,51 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+
+*,:after,:before {
+  box-sizing: border-box
+}
+
+@font-face {
+    font-family: "LCD";
+    src: url('../assets/fonts/LCD_Solid.ttf') format("truetype");
+}
+@font-face{
+    font-family: "pixel-g";
+    src:url('../assets/fonts/Pixel_Gosub.otf') format("truetype");
+}
+@font-face{
+    font-family: "3D";
+    src:url('../assets/fonts/3D.ttf');
+}
+@font-face{
+    font-family: "prstartk";
+    src:url('../assets/fonts/prstartk.ttf');
+}
+
+body,html{
+	font-size: 16px;
+}
+
+a{
+  color: #444;
+  &:hover{
+    color: #666;
+  }
+}
+button{
+  padding: 10px 20px;
+  min-width: 100px;
+  font-size: 12px;
+  background: #fff;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.3s;
+  &:hover{
+    -webkit-box-shadow: 2px 3px 5px #888;
+    -moz-box-shadow: 2px 3px 5px #888;
+    box-shadow: 2px 3px 5px #888;
+  }
+}
