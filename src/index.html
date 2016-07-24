@@ -1,20 +1,15 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Hello World!</title>
     <meta charset="utf-8" />
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>Hello World!</title>
     <link rel="stylesheet" href="./css/app.css" />
   </head>
-  <body class="theme-default">
-    <div class="wrapper">
-      <h1 class="title"></h1>
-      <div class="menu">
-        <a href="javascript:;">Settings</a>
-      </div>
-      <div class="action">
-        <button class="enter">Launch Minecraft</button>
-      </div>
-    </div>
-    <script type="text/javascript" src="./js/index.js"></script>
+  <body class="theme-default" ng-app="App">
+    <div class="wrapper view-frame" ng-view></div>
+    <div class="space-star star-animate"></div>
+    <script type="text/javascript" src="./js/components/app.js"></script>
   </body>
 </html>

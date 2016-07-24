@@ -1,0 +1,16 @@
+<div class="version">
+	<div class="version-info">
+		当前选择版本：{{version}}
+	</div>
+	<div class="version-list">
+		<div class="item" ng-repeat="item in versions" ng-click="check($index)">
+			<span class="id">{{item.id}}</span>
+			<span class="type">{{item.type}}</span>
+			<span class="checked" ng-if="item.checked === true">╮(￣▽￣)╭</span>
+		</div>
+	</div>
+	<div class="version-action">
+		<a href="#/settings" class="button back">返回上一级</a>
+		<a href="#/home" class="button back">返回主菜单</a>
+	</div>
+</div>

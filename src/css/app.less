@@ -70,3 +70,182 @@ body.theme-default {
     color: #666;
   }
 }
+
+// settings
+.settings{
+  padding: 3rem 0;
+  text-align: center;
+  .group{
+    margin-bottom: 8px;
+    text-align: left;
+    > label{
+      display: block;
+    }
+    > input{
+    }
+    .control{
+      font-size: 0.8rem;
+      border-radius: 2px;
+      margin-top: 5px;
+    }
+  }
+  .back,.version{
+    text-decoration: none;
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+  .version{
+    box-shadow: none;
+  }
+}
+
+.version{
+  height: 100%;
+  .version-info{
+    height: 5%;
+  }
+  .version-list{
+    height: 85%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    margin: 10px 0;
+    > .item {
+      position: relative;
+      height: 50px;
+      line-height: 50px;
+      cursor: pointer;
+      padding: 0 15px;
+      &:hover{
+        background: rgba(255, 255, 255, 0.2);
+      }
+    }
+    .id{
+      font-weight: 700;
+    }
+    .checked{
+      position: absolute;
+      right: 20px;
+    }
+  }
+  .version-action{
+    height: 10%;
+    text-align: center;
+    > a{
+      padding-top: 5px;
+      padding-bottom: 5px;
+    }
+  }
+}
+
+@-webkit-keyframes zoomIn {
+  from {
+    opacity: 0;
+    -webkit-transform: scale3d(.3, .3, .3);
+    transform: scale3d(.3, .3, .3);
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    -webkit-transform: scale3d(.3, .3, .3);
+    transform: scale3d(.3, .3, .3);
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes zoomOut {
+  from {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+    -webkit-transform: scale3d(.3, .3, .3);
+    transform: scale3d(.3, .3, .3);
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes zoomOut {
+  from {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+    -webkit-transform: scale3d(.3, .3, .3);
+    transform: scale3d(.3, .3, .3);
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes slide {
+    0% {
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0)
+    }
+
+    100% {
+        -webkit-transform: translate3d(-240px, -240px, 0);
+        transform: translate3d(-240px, -240px, 0)
+    }
+}
+
+@keyframes slide {
+    0% {
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0)
+    }
+
+    100% {
+        -webkit-transform: translate3d(-240px, -240px, 0);
+        transform: translate3d(-240px, -240px, 0)
+    }
+}
+
+.space-star {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0
+}
+
+.space-star.star-animate {
+    animation: slide 20s linear infinite;
+    background: url(https://svdb.co/images/stars.svg) center center;
+    background-size: 240px;
+    z-index: 1;
+}
+
+.view-frame{
+  -webkit-animation-duration: 0.5s;
+  animation-duration: 0.5s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  z-index: 2;
+}
+
+.view-frame.ng-enter{
+  -webkit-animation-name: zoomIn;
+  animation-name: zoomIn;
+}
+
+.view-frame.ng-leave {
+  -webkit-animation-name: zoomOut;
+  animation-name: zoomOut;
+}

@@ -9,7 +9,7 @@ var webpackconf = require('./webpack.config.js');
 var packager = require('electron-packager');
 
 gulp.task('clean', function() {
-	del.sync(['app']);
+	del.sync(['app','build']);
 });
 
 gulp.task('copy', function() {
@@ -17,6 +17,12 @@ gulp.task('copy', function() {
 		.pipe(gulp.dest('./app'));
 	gulp.src(['./src/lib/**'])
 		.pipe(gulp.dest('./app/lib'));
+	gulp.src(['./src/js/*.js'])
+		.pipe(gulp.dest('./app/js'));
+	gulp.src(['./src/js/lib/**'])
+		.pipe(gulp.dest('./app/js/lib'));
+	gulp.src(['./src/template/**'])
+		.pipe(gulp.dest('./app/template'));
 	gulp.src(['./src/assets/**'])
 		.pipe(gulp.dest('./app/assets'));
 	gulp.src(['./package.json']).pipe(gulp.dest('./app'));
@@ -48,11 +54,14 @@ gulp.task('default', ['build']);
 
 gulp.task('watch', ['build'], function () {
     gulp.watch('./src/css/*.less', ['less']);
-    // gulp.watch(['./src/js/**/*.*',
-    //     './src/app.config.js'], ['webpack']);
+    gulp.watch(['./src/js/components/*.js'], ['webpack']);
     gulp.watch(['./src/*.html',
+				'./src/template/*.html',
         './package.json',
         './src/enter.js',
+				'./src/js/*.js',
+				'./src/js/lib/*.*',
+				'./src/lib/*.*',
         './src/assets/**/*.*'], ['copy']);
 });
 
@@ -65,8 +74,7 @@ gulp.task('package', ['build'], function (){
 		platform: platforms[1],
 		// options
 		'app-version':'0.0.1',
-		out: path.join(__dirname, 'build'),
-		ignore: ['**/*.map']
+		out: path.join(__dirname, 'build')
 	}, function done_callback (err, appPaths) {
 		if(!err){
 			console.log('package done!');

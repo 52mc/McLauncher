@@ -1,0 +1,28 @@
+<div class="settings">
+  <div class="group">
+    <label for="">版本</label>
+    <a class="control button version" name="button" href="#/version">{{config.MinecraftVersion}}</a>
+  </div>
+
+  <div class="group">
+    <label for="">玩家名称</label>
+    <input class="control" type="text" name="name" value="{{config.PlayerName}}" />
+  </div>
+
+  <div class="group">
+    <label for="">JVM内存</label>
+    <input class="control" type="text" name="name" value="{{config.JVMMemory}}" />
+  </div>
+
+  <div class="group">
+    <label for="">JVM所在目录</label>
+    <input class="control" type="text" name="name" value="{{config.JreHome}}" ng-click="openFileDialog()" readonly="readonly"/>
+  </div>
+
+  <div class="group">
+    <label for="">游戏窗口大小</label>
+    <input class="control" type="text" name="name" value="{{config.Area.width}}" /> x <input class="control" type="text" name="name" value="{{config.Area.height}}" />
+  </div>
+
+  <a href="#/home" class="button back">返回主菜单</a>
+</div>

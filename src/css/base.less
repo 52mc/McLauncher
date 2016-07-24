@@ -34,7 +34,9 @@ a{
     color: #666;
   }
 }
-button{
+
+button, .button{
+  display: inline-block;
   padding: 10px 20px;
   min-width: 100px;
   font-size: 12px;
@@ -43,9 +45,16 @@ button{
   cursor: pointer;
   outline: none;
   transition: all 0.3s;
+  text-decoration: none;
   &:hover{
     -webkit-box-shadow: 2px 3px 5px #888;
     -moz-box-shadow: 2px 3px 5px #888;
     box-shadow: 2px 3px 5px #888;
   }
+}
+input{
+  height: 25px;
+  border: none;
+  outline: none;
+  padding: 2px 5px;
 }

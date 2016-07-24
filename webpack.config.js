@@ -26,15 +26,17 @@ if(!debug){
 
 var config = {
   context: __dirname,
+  cache: true,
+  target: 'atom',
   entry: {
-    index: './src/js/index.js'
+    index: './src/js/components/app.js'
   },
   output: {
     // 页面相对路径
     publicPath: "/",
     // 生成文件所在路径
-    path: path.resolve(__dirname, "app", "js"),
-    filename: '[name].js'
+    path: path.resolve(__dirname, "app", "js", "components"),
+    filename: 'app.js'
   },
   plugins: plugins,
   devtool: '#source-map',
