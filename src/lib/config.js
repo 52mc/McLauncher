@@ -1,12 +1,12 @@
 const fs = require('fs');
 const constants = require('./constants');
-const io = require('./lib/io');
+const io = require('./io');
 const configPath = constants.CONFIG;
 
 const defaultConfig = {
     PlayerName: 'Unknow',
     JVMMemory: 1024,
-    MinecraftVersion: '1.10.1',
+    MinecraftVersion: '0.0.0',
     Area: {
       width: 854,
       height: 480
@@ -26,7 +26,11 @@ if(fs.existsSync(configPath)){
 
 exports.set = function (key, value){
   console.log(`set config [${key}] : [${value}]`);
-  config[key] = value;
+  if (value===undefined){
+    config = key;
+  }else{
+    config[key] = value;
+  }
   io.writeFileSync(configPath, JSON.stringify(config));
 }
 

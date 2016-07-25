@@ -13,14 +13,10 @@ gulp.task('clean', function() {
 });
 
 gulp.task('copy', function() {
-	gulp.src(['./src/enter.js', './src/*.html'])
+	gulp.src(['./src/enter.js', './src/index.html'])
 		.pipe(gulp.dest('./app'));
 	gulp.src(['./src/lib/**'])
 		.pipe(gulp.dest('./app/lib'));
-	gulp.src(['./src/js/*.js'])
-		.pipe(gulp.dest('./app/js'));
-	gulp.src(['./src/js/lib/**'])
-		.pipe(gulp.dest('./app/js/lib'));
 	gulp.src(['./src/template/**'])
 		.pipe(gulp.dest('./app/template'));
 	gulp.src(['./src/assets/**'])
@@ -54,14 +50,11 @@ gulp.task('default', ['build']);
 
 gulp.task('watch', ['build'], function () {
     gulp.watch('./src/css/*.less', ['less']);
-    gulp.watch(['./src/js/components/*.js'], ['webpack']);
-    gulp.watch(['./src/*.html',
+    gulp.watch(['./src/js/**/*.js', './src/lib/*.*'], ['webpack']);
+    gulp.watch(['./src/index.html',
 				'./src/template/*.html',
         './package.json',
         './src/enter.js',
-				'./src/js/*.js',
-				'./src/js/lib/*.*',
-				'./src/lib/*.*',
         './src/assets/**/*.*'], ['copy']);
 });
 

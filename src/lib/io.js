@@ -1,7 +1,34 @@
 const Promise = require('bluebird');
 const fs = require('fs');
+const mkdirp  = require('mkdirp');
 const EventEmitter = require('events').EventEmitter;
 const fetch = require('node-fetch');
+
+exports.request = function (url, timeout){
+  return fetch(url, { timeout: timeout }).then((res) => {
+    return Promise.resolve(res.text());
+  });
+}
+
+exports.createFolders = function (path) {
+  return new Promise((resolve, reject) => {
+    mkdirp(path, (err) => {
+      err ? reject(err) : resolve();
+    });
+  });
+}
+
+exports.createFolderSync = function (path){
+  return new Promise((resolve, reject) => {
+    fs.exists(path, (exists) => {
+      if(exists) resolve();
+      fs.mkdir(path, '0755', (err) =>  {
+        if (err) return reject(err);
+        resolve();
+      });
+    });
+  });
+}
 
 exports.readFile = function (fileName) {
   return new Promise((resolve, reject) => {
@@ -16,8 +43,10 @@ exports.readFileSync = function (fileName) {
 }
 
 exports.writeFile = function (fileName, content) {
-  fs.writeFile(fileName, content, 'utf8', (err, data) => {
-    err ? reject(err) : resolve(data);
+  return new Promise((resolve, reject) => {
+    fs.writeFile(fileName, content, 'utf8', (err, data) => {
+      err ? reject(err) : resolve(data);
+    });
   });
 }
 
@@ -27,6 +56,7 @@ exports.writeFileSync = function (fileName, content) {
 
 exports.writeBufferToFile = function (fileName, data) {
   return new Promise((resolve, reject) => {
+    console.log(111,fileName);
     fs.writeFile(fileName, data , err => {
       err ? reject(err) : resolve();
     });
@@ -114,4 +144,12 @@ exports.downloadFileToDisk = function (url, path, retryCount) {
     }, 500);
   });
   return DownloadFileProcessEvent;
+}
+
+exports.downloadFileToDiskPromise = function (){
+  return new Promise((resolve, reject) => {
+    const DownloadFileProcess = this.downloadFileToDisk.apply(this, arguments);
+    DownloadFileProcess.on('done', () => resolve());
+    DownloadFileProcess.on('error', err => reject(err));
+  });
 }

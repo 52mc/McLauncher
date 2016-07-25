@@ -27,15 +27,15 @@ if(!debug){
 var config = {
   context: __dirname,
   cache: true,
-  target: 'atom',
+  target: 'electron', // http://webpack.github.io/docs/configuration.html#target
   entry: {
-    index: './src/js/components/app.js'
+    index: ['babel-polyfill', './src/js/app.js']
   },
   output: {
     // 页面相对路径
     publicPath: "/",
     // 生成文件所在路径
-    path: path.resolve(__dirname, "app", "js", "components"),
+    path: path.resolve(__dirname, "app", "js"),
     filename: 'app.js'
   },
   plugins: plugins,
@@ -47,11 +47,20 @@ var config = {
 			{
 				test   : /\.woff|\.woff2|\.svg|.eot|\.ttf/,
 				loader : 'url?prefix=font/&limit=10000'
-			}
+			},
+      {
+        test: /\.js$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/,
+        query: {
+          presets: ['es2015', 'stage-0']
+        }
+      },
+      { test: /\.json?$/, loader: 'json-loader' }
     ]
   },
   resolve: {
-    extensions: ['', '.js', '.less'],
+    extensions: ['', '.js', '.less', '.json'],
     modulesDirectories: ["node_modules", "bower_components"]
   }
 };

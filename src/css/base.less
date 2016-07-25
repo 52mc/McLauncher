@@ -7,6 +7,28 @@
   box-sizing: border-box
 }
 
+::-webkit-scrollbar-track-piece {
+	background-color: rgba(255, 255, 255, 0.3);
+	-webkit-border-radius: 0;
+}
+::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+}
+::-webkit-scrollbar-thumb {
+	height: 50px;
+	background-color: #bbb;
+	-webkit-border-radius: 2px;
+	outline: none;
+	// outline-offset:-2px;
+	border: 2px solid #eee;
+}
+::-webkit-scrollbar-thumb:hover {
+	height: 50px;
+	background-color: #9f9f9f;
+	-webkit-border-radius: 2px;
+}
+
 @font-face {
     font-family: "LCD";
     src: url('../assets/fonts/LCD_Solid.ttf') format("truetype");
@@ -57,4 +79,19 @@ input{
   border: none;
   outline: none;
   padding: 2px 5px;
+}
+.label{
+  display: inline;
+  padding: .2em .6em .3em;
+  font-size: 75%;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .25em;
+  &.label-info{
+    background-color: #5bc0de;
+  }
 }

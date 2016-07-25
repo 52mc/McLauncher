@@ -5,7 +5,7 @@
 	<div class="version-list">
 		<div class="item" ng-repeat="item in versions" ng-click="check($index)">
 			<span class="id">{{item.id}}</span>
-			<span class="type">{{item.type}}</span>
+			<span class="type label label-info">{{item.type}}</span>
 			<span class="checked" ng-if="item.checked === true">╮(￣▽￣)╭</span>
 		</div>
 	</div>
