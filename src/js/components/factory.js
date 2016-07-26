@@ -1,10 +1,10 @@
-module.exports = 'Factory';
+module.exports = 'factory';
 
 var core = require('../../lib/core');
 var Config = require('../../lib/config');
 var ipc = require('electron').ipcRenderer;
 
-angular.module('Factory', [])
+angular.module('factory', [])
 	.factory('McConfig', function (){
 	  var _config = {}
 
@@ -13,7 +13,7 @@ angular.module('Factory', [])
 	  }
 
 	  function set (key, value){
-	    if(value===undefined){
+	    if(value === undefined){
 	      _config = key;
 	    }else{
 	      _config[key] = value;
@@ -39,5 +39,15 @@ angular.module('Factory', [])
 
 	.factory('Core', function(){
 		return core;
+	})
+
+	.factory('Notice', function(){
+		return {
+			send: (msg) => {
+				new Notification('Hello', {
+				  body: msg || ''
+				});
+			}
+		}
 	})
 ;

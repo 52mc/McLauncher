@@ -3,6 +3,23 @@ const fs = require('fs');
 const mkdirp  = require('mkdirp');
 const EventEmitter = require('events').EventEmitter;
 const fetch = require('node-fetch');
+const ncp = require('ncp');
+
+exports.copy = function (source, destination){
+  return new Promise((resolve, reject) => {
+    ncp(source, destination, (err) => {
+     err ? reject(err) : resolve();
+    });
+  });
+}
+
+exports.wait = function (time){
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve();
+    }, time);
+  });
+}
 
 exports.request = function (url, timeout){
   return fetch(url, { timeout: timeout }).then((res) => {
@@ -19,15 +36,10 @@ exports.createFolders = function (path) {
 }
 
 exports.createFolderSync = function (path){
-  return new Promise((resolve, reject) => {
-    fs.exists(path, (exists) => {
-      if(exists) resolve();
-      fs.mkdir(path, '0755', (err) =>  {
-        if (err) return reject(err);
-        resolve();
-      });
-    });
-  });
+  const exists = fs.existsSync(path);
+  if(!exists){
+    fs.mkdirSync(path, '0755');
+  }
 }
 
 exports.readFile = function (fileName) {

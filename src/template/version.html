@@ -6,6 +6,7 @@
 		<div class="item" ng-repeat="item in versions" ng-click="check($index)">
 			<span class="id">{{item.id}}</span>
 			<span class="type label label-info">{{item.type}}</span>
+			<span class="downloaded label label-success" ng-if="item.downloaded === true">已离线</span>
 			<span class="checked" ng-if="item.checked === true">╮(￣▽￣)╭</span>
 		</div>
 	</div>

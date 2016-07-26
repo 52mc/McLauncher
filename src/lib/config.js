@@ -12,7 +12,8 @@ const defaultConfig = {
       height: 480
     },
 		JreVersion: '1.7',
-		JreHome: ''
+		JreHome: '',
+    Downloaded: []
 }
 
 var config = {};

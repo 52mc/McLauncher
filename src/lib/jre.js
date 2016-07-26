@@ -29,14 +29,24 @@ exports.which = function (arg) {
   });
 }
 
+exports.loadJrePath = function (){
+	return new Promise((resolve, reject) => {
+		const Java = this.which('java');
+	  Java.then((bin) => {
+			resolve(bin);
+	  }).catch((err) => {
+			reject(err);
+	  });
+	});
+}
+
 /**
  * 获取本地Java版本，获取不到或失败返回null
  * @return {string|object} java版本号，例如：1.7，获取不到则返回null
  */
 exports.localJreVersion = function () {
 	return new Promise((resolve, reject) => {
-		const Java = this.which('java');
-	  Java.then((bin) => {
+		this.loadJrePath().then((bin) => {
 			const Version = spawn(bin, ['-version']);
 			var output = '';
       Version.stdout.setEncoding('utf8');
@@ -50,7 +60,7 @@ exports.localJreVersion = function () {
 			Version.on('error', (err) => {
 				reject(e);
 			});
-	  }).catch((err) => {
+		}).catch((err) => {
 			reject(err);
 	  });
 	});

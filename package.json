@@ -2,7 +2,7 @@
   "name": "McLauncher",
   "version": "0.0.1",
   "description": "基于Electron开发的Minecraft启动器",
-  "main": "src/enter.js",
+  "main": "enter.js",
   "scripts": {
     "start": "electron ./app/enter.js"
   },
@@ -19,6 +19,7 @@
   },
   "author": "eeve",
   "devDependencies": {
+    "adm-zip": "^0.4.7",
     "angular": "^1.5.8",
     "angular-animate": "^1.5.8",
     "angular-route": "^1.5.8",
@@ -41,8 +42,10 @@
     "less-loader": "^2.2.3",
     "lodash": "^4.13.1",
     "mkdirp": "^0.5.1",
+    "ncp": "^2.0.0",
     "node-fetch": "^1.5.3",
     "request": "^2.74.0",
+    "spinkit": "^1.2.5",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
     "webpack": "^1.13.1"

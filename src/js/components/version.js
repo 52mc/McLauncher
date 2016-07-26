@@ -1,6 +1,8 @@
 module.exports = 'version';
 angular.module('version', [require('./factory')])
 	.controller('VersionCtrl', ['$scope', 'McConfig', 'IPC', 'Core', function ($scope, McConfig, IPC, Core){
+		// 已经离线的版本数组
+		const downloaded = McConfig.get('Downloaded') || [];
 
 	  var getChineseType = function (type){
 	    switch (type){
@@ -18,11 +20,14 @@ angular.module('version', [require('./factory')])
 	    for ( ; i < count; i++) {
 	      var item = versions[i];
 	      item.type = getChineseType(item.type);
+				// 标记当前勾选版本
 	      if(versions !== undefined) {
 	        item.checked = item.id === version;
 	      }else{
 	        item.checked = false;
 	      }
+				// 标记已离线
+				item.downloaded = (downloaded.indexOf(item.id) !== -1);
 	    }
 	    return versions;
 	  }

@@ -1,7 +1,20 @@
-<h1 class="title"></h1>
-<div class="menu">
-  <a ng-repeat="menu in menus" href="{{menu.url}}">{{menu.title}}</a>
-</div>
-<div class="action">
-  <button class="enter" ng-click="launch()">{{launchText}}</button>
+<div class="home">
+  <h1 class="title"></h1>
+  <div class="menu" ng-if="!lock">
+    <a ng-repeat="menu in menus" href="{{menu.url}}" class="{{menu.icon}}" title="{{menu.title}}"></a>
+  </div>
+  <div class="action">
+    <div ng-hide="lock">
+      <button class="enter" ng-click="launch()">{{launchText}}</button>
+    </div>
+    <div class="loading" ng-if="lock">
+      <div class="sk-three-bounce">
+        <div class="sk-child sk-bounce1"></div>
+        <div class="sk-child sk-bounce2"></div>
+        <div class="sk-child sk-bounce3"></div>
+      </div>
+    </div>
+    <p class="version" ng-if="version">已选版本{{version}}</p>
+    <p class="message">{{message}}</p>
+  </div>
 </div>

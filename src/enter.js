@@ -33,15 +33,15 @@ app.on('window-all-closed', function() {
 var createWindow = function () {
   // 创建浏览器窗口。
   mainWindow = new BrowserWindow({
-    width: 800,
-    height: 520,
+    width: 500,
+    height: 300,
     resizable: false,
     // frame: false,
     titleBarStyle: 'hidden'
   });
 
   // 启用开发工具。
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 
   // 加载应用的 index.html
   mainWindow.loadURL('file://' + __dirname + '/index.html');

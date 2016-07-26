@@ -22,6 +22,9 @@ gulp.task('copy', function() {
 	gulp.src(['./src/assets/**'])
 		.pipe(gulp.dest('./app/assets'));
 	gulp.src(['./package.json']).pipe(gulp.dest('./app'));
+
+	gulp.src(['./node_modules/bluebird/**/*']).pipe(gulp.dest('./app/node_modules/bluebird'));
+
 });
 
 gulp.task('less', function() {
@@ -64,7 +67,7 @@ gulp.task('package', ['build'], function (){
 	packager({
 		arch: archs[1],
 		dir: path.join(__dirname, 'app'),
-		platform: platforms[1],
+		platform: platforms[2],
 		// options
 		'app-version':'0.0.1',
 		out: path.join(__dirname, 'build')
