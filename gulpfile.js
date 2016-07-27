@@ -4,6 +4,9 @@ var gutil = require('gulp-util');
 var webpack = require('webpack');
 var del = require('del');
 var less = require('gulp-less');
+var uglify = require('gulp-uglify');
+var babel = require('gulp-babel');
+
 var pkg = require('./package.json');
 var webpackconf = require('./webpack.config.js');
 var packager = require('electron-packager');
@@ -13,10 +16,8 @@ gulp.task('clean', function() {
 });
 
 gulp.task('copy', function() {
-	gulp.src(['./src/enter.js', './src/index.html'])
+	gulp.src(['./src/index.html','./src/helper.js','./src/online.js','./src/online-status.html'])
 		.pipe(gulp.dest('./app'));
-	gulp.src(['./src/lib/**'])
-		.pipe(gulp.dest('./app/lib'));
 	gulp.src(['./src/template/**'])
 		.pipe(gulp.dest('./app/template'));
 	gulp.src(['./src/assets/**'])
@@ -35,6 +36,15 @@ gulp.task('less', function() {
 		.pipe(gulp.dest('./app/css'));
 });
 
+gulp.task('compress', function () {
+  return gulp.src('src/enter.js')
+		.pipe(babel({
+    	presets: ['es2015']
+    }))
+    .pipe(uglify())
+    .pipe(gulp.dest('app'));
+});
+
 gulp.task('webpack', function(callback) {
 	webpack(webpackconf, function(err, stats) {
 		if (err) {
@@ -48,16 +58,16 @@ gulp.task('webpack', function(callback) {
 	});
 });
 
-gulp.task('build', ['clean', 'copy', 'less', 'webpack']);
+gulp.task('build', ['clean', 'copy', 'less', 'compress', 'webpack']);
 gulp.task('default', ['build']);
 
 gulp.task('watch', ['build'], function () {
     gulp.watch('./src/css/*.less', ['less']);
-    gulp.watch(['./src/js/**/*.js', './src/lib/*.*'], ['webpack']);
+    gulp.watch(['./src/js/**/*.js'], ['webpack']);
     gulp.watch(['./src/index.html',
+				'./src/helper.js','./src/online.js','./src/online-status.html',
 				'./src/template/*.html',
         './package.json',
-        './src/enter.js',
         './src/assets/**/*.*'], ['copy']);
 });
 

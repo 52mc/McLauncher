@@ -65,3 +65,10 @@ exports.localJreVersion = function () {
 	  });
 	});
 }
+
+// core.jre.localJreVersion()
+//   .then((version) => {
+//     console.log(`Java版本为${version}`);
+//   }).catch((err) => {
+//     console.log('获取Java版本信息失败', err);
+//   });

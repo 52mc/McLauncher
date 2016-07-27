@@ -1,7 +1,9 @@
 module.exports = 'settings';
 angular.module('settings', [require('./factory')])
 	.controller('SettingsCtrl', ['$scope', 'McConfig', 'IPC', function ($scope, McConfig, IPC){
+
 	  $scope.config = McConfig.get();
+		
 	  var opened = false;
 	  $scope.openFileDialog = function (){
 	    if(opened) { return; }
@@ -12,7 +14,7 @@ angular.module('settings', [require('./factory')])
 	      if( filepath === undefined ){
 	        return;
 	      }
-	      $scope.config.JreHome = filepath;
+	      $scope.config.jre.home = filepath;
 	      $scope.$apply();
 	    });
 	    opened = true;

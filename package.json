@@ -4,7 +4,8 @@
   "description": "基于Electron开发的Minecraft启动器",
   "main": "enter.js",
   "scripts": {
-    "start": "electron ./app/enter.js"
+    "start": "electron ./app/enter.js",
+    "watch": "NODE_ENV=local gulp watch"
   },
   "keywords": [
     "McLauncher",
@@ -35,7 +36,9 @@
     "electron-packager": "^7.3.0",
     "electron-prebuilt": "^1.2.8",
     "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
     "gulp-less": "^3.1.0",
+    "gulp-uglify": "^1.5.4",
     "gulp-util": "^3.0.7",
     "json-loader": "^0.5.4",
     "less": "^2.7.1",

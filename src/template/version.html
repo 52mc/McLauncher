@@ -5,13 +5,13 @@
 	<div class="version-list">
 		<div class="item" ng-repeat="item in versions" ng-click="check($index)">
 			<span class="id">{{item.id}}</span>
-			<span class="type label label-info">{{item.type}}</span>
+			<span class="type label label-info">{{item.typeName}}</span>
 			<span class="downloaded label label-success" ng-if="item.downloaded === true">已离线</span>
 			<span class="checked" ng-if="item.checked === true">╮(￣▽￣)╭</span>
 		</div>
 	</div>
 	<div class="version-action">
 		<a href="#/settings" class="button back">返回上一级</a>
-		<a href="#/home" class="button back">返回主菜单</a>
+		<a href="#/home" class="button back">返回主页</a>
 	</div>
 </div>

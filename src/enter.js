@@ -1,21 +1,13 @@
-var electron = require('electron');  // 控制应用生命周期的模块。
-var app = electron.app;
-var BrowserWindow = electron.BrowserWindow;  // 创建原生浏览器窗口的模块
+// 使用内置模块时禁用旧样式
+process.env.ELECTRON_HIDE_INTERNAL_MODULES = 'true'
+
+const {app, BrowserWindow, ipcMain, dialog} = require('electron');  // 控制应用生命周期的模块。
 // var Tray = electron.Tray; // 托盘图标
 // var Menu = electron.Menu; // 菜单
-var ipcMain = electron.ipcMain; // IPC通信
-
-var dialog = electron.dialog; // dialog
 
 // 在线，离线检测
-require('./lib/online');
-const helper = require('./lib/helper');
-// core.jre.localJreVersion()
-//   .then((version) => {
-//     console.log(`Java版本为${version}`);
-//   }).catch((err) => {
-//     console.log('获取Java版本信息失败', err);
-//   });
+require('./online');
+const helper = require('./helper');
 
 // 保持一个对于 window 对象的全局引用，不然，当 JavaScript 被 GC，
 // window 会被自动地关闭

@@ -1,47 +1,35 @@
 module.exports = 'factory';
 
-var core = require('../../lib/core');
-var Config = require('../../lib/config');
-var ipc = require('electron').ipcRenderer;
+const Core = require('../lib/core');
+const Jre = require('../lib/jre');
+const Config = require('../lib/config');
+const Manifest = require('../lib/manifest');
+const Constants = require('../lib/constants');
+const Url = require('../lib/url');
+
+const IPC = require('electron').ipcRenderer;
 
 angular.module('factory', [])
-	.factory('McConfig', function (){
-	  var _config = {}
 
-	  function get (key){
-	    return key === undefined ? _config : _config[key];
-	  }
+	.constant('Constants', Constants)
 
-	  function set (key, value){
-	    if(value === undefined){
-	      _config = key;
-	    }else{
-	      _config[key] = value;
-	    }
-			Config.set(_config);
-	  }
-
-	  function _init(){
-	    _config = Config.get();
-	  }
-
-	  _init();
-
-	  return {
-	    set : set,
-	    get : get
-	  }
+	.factory('IPC', function() {
+		return IPC;
 	})
 
-	.factory('IPC', function(){
-		return ipc;
+	.factory('Url', function() {
+		return Url;
 	})
 
-	.factory('Core', function(){
-		return core;
+	.factory('Core', function() {
+		return Core;
 	})
 
-	.factory('Notice', function(){
+	.factory('Jre', function() {
+		return Jre;
+	})
+
+	.factory('Notice', function() {
 		return {
 			send: (msg) => {
 				new Notification('Hello', {

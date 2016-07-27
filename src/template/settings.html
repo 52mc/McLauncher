@@ -1,30 +1,30 @@
 <div class="settings">
   <div class="group">
     <label for="">版本</label>
-    <a class="control button version" name="button" href="#/version">{{config.MinecraftVersion}}</a>
+    <a class="control button version" name="button" href="#/version">{{config.version}}</a>
   </div>
 
   <div class="group">
     <label for="">玩家名称</label>
-    <input class="control" type="text" name="name" ng-model="config.PlayerName" />
+    <input class="control" type="text" name="name" ng-model="config.player" />
   </div>
 
   <div class="group">
     <label for="">JVM内存</label>
-    <input class="control" type="text" name="name" ng-model="config.JVMMemory" />
+    <input class="control" type="text" name="name" ng-model="config.memory" />
   </div>
 
   <div class="group">
     <label for="">JVM所在目录</label>
-    <input class="control" type="text" name="name" ng-model="config.JreHome" ng-click="openFileDialog()" readonly="readonly"/>
+    <input class="control" type="text" name="name" ng-model="config.jre.home" ng-click="openFileDialog()" readonly="readonly"/>
   </div>
 
   <div class="group">
     <label for="">游戏窗口大小</label>
     <span class="cl">
-      <input class="control sub" type="text" name="name" ng-model="config.Area.width" /> x <input class="control sub" type="text" name="name" ng-model="config.Area.height" />
+      <input class="control sub" type="text" name="name" ng-model="config.area.width" /> x <input class="control sub" type="text" name="name" ng-model="config.area.height" />
     </span>
   </div>
 
-  <a href="#/home" class="button back">返回主菜单</a>
+  <a href="#/home" class="button back">返回主页</a>
 </div>

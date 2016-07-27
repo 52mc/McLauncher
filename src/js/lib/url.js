@@ -1,12 +1,16 @@
 const cdn = 'http://7xwoig.com1.z0.glb.clouddn.com';
 
+const manifest = `https://launchermeta.mojang.com/mc/game/version_manifest.json`;
 const client = `${cdn}/versions/<version>.jar`;
 const versions = `${cdn}/versions/list.json`;
 const libraries    = 'https://libraries.minecraft.net';
 const librariesCN  = `${cdn}/libraries`;
 const assetsCDN = `${cdn}/assets/<index>/<hash>`;
+const assetsJsonCDN = `https://authentication.x-speed.cc/minecraft/assets/<key>.json`
 
 module.exports = {
+
+    manifest : manifest,
 
     /* 获取客户端Jar URL */
     getClientUrl(version){
@@ -29,6 +33,12 @@ module.exports = {
     getAssetsForChinaUser(index, hash){
       const _url = assetsCDN.replace(/<index>/g, index).replace(/<hash>/g, hash);
       console.log('download assets url:', _url);
+      return _url;
+    },
+
+    getAssetJsonForChinaUser(key){
+      const _url =assetsJsonCDN.replace(/<key>/g, key);
+      console.log('download assetsJson url:', _url);
       return _url;
     }
 }

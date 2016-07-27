@@ -29,14 +29,15 @@ var config = {
   cache: true,
   target: 'electron', // http://webpack.github.io/docs/configuration.html#target
   entry: {
-    index: ['babel-polyfill', './src/js/app.js']
+    'js/app': ['babel-polyfill', './src/js/app.js']
   },
   output: {
     // 页面相对路径
     publicPath: "/",
     // 生成文件所在路径
-    path: path.resolve(__dirname, "app", "js"),
-    filename: 'app.js'
+    path: path.resolve(__dirname, "app"),
+    // 文件名
+    filename: '[name].js'
   },
   plugins: plugins,
   devtool: '#source-map',
