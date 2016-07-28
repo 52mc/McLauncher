@@ -7,7 +7,7 @@ const WORKSPACE = joinPath(USER_HOME, '.' + pkg.name);
 const CONFIG = joinPath(WORKSPACE, 'config.json');
 const VERSIONS = joinPath(WORKSPACE, 'versions.json');
 
-const game_root = joinPath(WORKSPACE, '/.minecraft2/');
+const game_root = joinPath(WORKSPACE, '/.minecraft/');
 const game = {
 	root: game_root,
 	assets: joinPath(game_root, '/assets/'),
