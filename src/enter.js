@@ -71,11 +71,6 @@ app.on('activate', function () {
     }
 });
 
-// 网络状态改变
-ipcMain.on('online-status-changed', function(event, status) {
-  console.log('网络环境发生变化：', status);
-});
-
 const helper = require('./helper');
 
 ipcMain.on('open-file-dialog', function(event, callback){
@@ -85,4 +80,8 @@ ipcMain.on('open-file-dialog', function(event, callback){
     }).catch(function(e){
       event.sender.send(callback);
     });
+});
+
+ipcMain.on('show-folder', function(event, fullPath){
+  helper.showFolder(fullPath);
 });

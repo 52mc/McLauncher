@@ -1,8 +1,11 @@
 module.exports = 'settings';
 angular.module('settings', [require('./factory')])
-	.controller('SettingsCtrl', ['$scope', 'McConfig', 'IPC', 'Jre', 'Notice', function ($scope, McConfig, IPC, Jre, Notice){
+	.controller('SettingsCtrl', ['$scope', 'McConfig', 'IPC', 'Jre', 'Notice', 'Constants', function ($scope, McConfig, IPC, Jre, Notice, Constants){
 
-	  $scope.config = McConfig.get();
+	  var config = $scope.config = McConfig.get();
+
+		// 已经离线的版本，可以打开游戏目录
+		$scope.open = (config.downloaded.indexOf(config.version) != -1);
 
 	  var opened = false;
 	  $scope.openFileDialog = function (){
@@ -28,6 +31,10 @@ angular.module('settings', [require('./factory')])
 			  console.log(err);
 			  Notice.send('error', '找不到JAVA环境');
 			});
+		}
+
+		$scope.openGameFd = function (){
+			IPC.send('show-folder', `${Constants.FDS.games}${config.version}/`);
 		}
 
 		// 配置项中jre为空时，自动执行查找jre

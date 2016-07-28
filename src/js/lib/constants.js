@@ -10,6 +10,7 @@ const VERSIONS = joinPath(WORKSPACE, 'versions.json');
 const game_root = joinPath(WORKSPACE, '/.minecraft/');
 const game = {
 	root: game_root,
+	games: joinPath(game_root, '/games/'),
 	assets: joinPath(game_root, '/assets/'),
 	libs: joinPath(game_root, '/libraries/'),
 	versions: joinPath(game_root, '/versions/'),

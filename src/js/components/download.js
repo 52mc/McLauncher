@@ -385,6 +385,7 @@ angular.module('download', [
 			const io = Core.io;
 
 			const fd_root = Constants.FDS.root;
+			const fd_games = Constants.FDS.games;
 			//  versions文件夹
 			const fd_versions = Constants.FDS.versions;
 			// libraries文件夹
@@ -492,7 +493,7 @@ angular.module('download', [
 		            item = '"+1s"';
 		            break;
 		          case '${game_directory}':
-		            item = fd_root;
+		            item = `${fd_games}${version}`;
 		            break;
 		          case '${assets_root}':
 		            item = `${fd_assets}${indexFile.assets}`;

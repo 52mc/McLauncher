@@ -1,6 +1,5 @@
 const Promise = require('bluebird');
-const electron = require('electron');
-const dialog = electron.dialog;
+const {dialog, shell} = require('electron');
 
 exports.openFileDialog = function (title) {
   return new Promise(function (resolve, reject){
@@ -14,4 +13,8 @@ exports.openFileDialog = function (title) {
       resolve(filepaths[0]);
     });
   });
+}
+
+exports.showFolder = function (fullPath) {
+  shell.showItemInFolder(fullPath);
 }
