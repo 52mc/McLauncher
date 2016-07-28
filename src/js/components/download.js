@@ -525,7 +525,6 @@ angular.module('download', [
 		      JVMArgs.push(args.height);
 		      JVMArgs.push('--width');
 		      JVMArgs.push(args.width);
-
 					console.log(args.jre.home, JSON.stringify(JVMArgs));
 					const child = spawn(args.jre.home, JVMArgs, { cwd: fd_root });
 					child.on('error', (err) =>  TaskEvent.emit('error', err));

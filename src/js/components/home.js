@@ -64,7 +64,7 @@ angular.module('home', [
 
       // launch event
       LaunchMinecraftProcessEvent.on('error', (err) => {
-        initState(`${err}`);
+        initState(`${err}`, true);
       });
       LaunchMinecraftProcessEvent.on('message', (msg) => {
         console.info(msg);

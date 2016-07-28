@@ -16,7 +16,7 @@ gulp.task('clean', function() {
 });
 
 gulp.task('copy', function() {
-	gulp.src(['./src/index.html','./src/helper.js','./src/online.js','./src/online-status.html'])
+	gulp.src(['./src/index.html', './src/helper.js'])
 		.pipe(gulp.dest('./app'));
 	gulp.src(['./src/template/**'])
 		.pipe(gulp.dest('./app/template'));
@@ -65,7 +65,7 @@ gulp.task('watch', ['build'], function () {
     gulp.watch('./src/css/*.less', ['less']);
     gulp.watch(['./src/js/**/*.js'], ['webpack']);
     gulp.watch(['./src/index.html',
-				'./src/helper.js','./src/online.js','./src/online-status.html',
+				'./src/helper.js',
 				'./src/template/*.html',
         './package.json',
         './src/assets/**/*.*'], ['copy']);
@@ -74,12 +74,27 @@ gulp.task('watch', ['build'], function () {
 var archs = ['ia32','x64','all'];
 var platforms = ['linux', 'win32', 'darwin', 'mas', 'all'];
 gulp.task('package', ['build'], function (){
+	var arch = archs[1];
+	var platform = platforms[2];
+	var icon = null;
+	switch (platform) {
+		case 'linux':
+			icon = path.join(__dirname, 'app', 'assets', 'tray.png');
+			break;
+		case 'win32':
+			icon = path.join(__dirname, 'app', 'assets', 'tray.ico');
+			break;
+		case 'darwin':
+			icon = path.join(__dirname, 'app', 'assets', 'app.icns');
+			break;
+		default:
+	};
 	packager({
-		arch: archs[1],
+		arch: arch,
 		dir: path.join(__dirname, 'app'),
-		platform: platforms[2],
-		// options
-		'app-version':'0.0.1',
+		platform: platform,
+		icon: icon,
+		'app-version': pkg.version,
 		out: path.join(__dirname, 'build'),
 	}, function done_callback (err, appPaths) {
 		if(!err){

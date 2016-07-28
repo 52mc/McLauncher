@@ -13,3 +13,9 @@ npm install
 # 打开启动器
 gulp build && npm start
 ```
+
+## MacOs
+make .dmg file
+```bash
+./dropdmg.sh
+```

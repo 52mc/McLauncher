@@ -1,17 +1,12 @@
 // 使用内置模块时禁用旧样式
 process.env.ELECTRON_HIDE_INTERNAL_MODULES = 'true'
 
-const {app, BrowserWindow, ipcMain, dialog} = require('electron');  // 控制应用生命周期的模块。
-// var Tray = electron.Tray; // 托盘图标
-// var Menu = electron.Menu; // 菜单
-
-// 在线，离线检测
-require('./online');
-const helper = require('./helper');
+const {app, BrowserWindow, ipcMain, dialog, Menu, Tray, shell} = require('electron');  // 控制应用生命周期的模块。
 
 // 保持一个对于 window 对象的全局引用，不然，当 JavaScript 被 GC，
 // window 会被自动地关闭
 var mainWindow = null;
+var appIcon = null;
 
 // 当所有窗口被关闭了，退出。
 app.on('window-all-closed', function() {
@@ -50,10 +45,21 @@ var createWindow = function () {
   });
 };
 
-
 // 当 Electron 完成了初始化并且准备创建浏览器窗口的时候
 // 这个方法就被调用
 app.on('ready', function() {
+  appIcon = new Tray(__dirname+'/assets/tray.png');
+  var contextMenu = Menu.buildFromTemplate([
+    { label: '关于', type: 'normal', click: function() {
+      shell.openExternal('https://github.com/52mc/McLauncher');
+    } },
+    { label: '报告BUG', type: 'normal', click: function() {
+      shell.openExternal('https://github.com/52mc/McLauncher/issues');
+    } },
+    { label: '退出Mc启动器', type: 'normal', role: 'close' }
+  ]);
+  appIcon.setToolTip('This is my application.');
+  appIcon.setContextMenu(contextMenu);
   createWindow();
 });
 
@@ -69,6 +75,8 @@ app.on('activate', function () {
 ipcMain.on('online-status-changed', function(event, status) {
   console.log('网络环境发生变化：', status);
 });
+
+const helper = require('./helper');
 
 ipcMain.on('open-file-dialog', function(event, callback){
   helper.openFileDialog('请选择JVM所在路径')

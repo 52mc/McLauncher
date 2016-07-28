@@ -14,7 +14,7 @@
         <div class="sk-child sk-bounce3"></div>
       </div>
     </div>
-    <p class="version" ng-if="version">已选版本{{version}}</p>
+    <a class="version" href="{{lock ? 'javascript:;' : '#/version'}}" ng-disabled="lock">已选版本{{version}}</a>
     <p class="message">{{message}}</p>
   </div>
 </div>
