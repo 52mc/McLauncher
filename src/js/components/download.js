@@ -4,6 +4,7 @@ const admZip = require('adm-zip');
 const spawn = require('child_process').spawn;
 const Promise = require('bluebird');
 const assignIn = require('lodash').assignIn;
+const uuid = require('node-uuid');
 
 module.exports = 'download';
 angular.module('download', [
@@ -300,7 +301,7 @@ angular.module('download', [
 						const fd_assets_inner = `${fd_assets}${indexFile.assets}`;
 						const fd_assets_indexes = `${fd_assets_inner}/indexes/`;
 						const fd_assets_objects = `${fd_assets_inner}/objects/`;
-						const assetsIndex = `${fd_assets_inner}.json`;
+						const assetsIndex = `${fd_assets_indexes}${indexFile.assets}.json`;
 						// const assetsIndexDir = `${fd_assets}${indexFile.assets}/indexes/`;
 						// const assetsObjectDir = `${fd_assets}${indexFile.assets}/objects/`;
 
@@ -480,7 +481,7 @@ angular.module('download', [
 		      JVMArgs.push(`${LoadLibrariesString}${fd_version}${version}.jar`);
 		      JVMArgs.push(indexFile.mainClass);
 
-		      var ClientUUID = '110ec58aa0f24ac48393c866d813b8d1';//Date.now();//uuid.v1().replace(/-/g, '');
+		      var ClientUUID = uuid.v4().replace(/-/g, '');
 		      indexFile.minecraftArguments.split(' ').map(item => {
 		        switch (item) {
 		          case '${auth_player_name}':
@@ -508,6 +509,9 @@ angular.module('download', [
 		          case '${user_type}':
 		            item = 'Legacy';
 		            break;
+							case '${version_type}':
+								item = '';
+								break;
 		          //1.5.2
 		          case  '${game_assets}':
 		            item = `${fd_assets}${indexFile.assets}`;
@@ -517,9 +521,9 @@ angular.module('download', [
 		      });
 
 		      JVMArgs.push('--height');
-		      JVMArgs.push(Number(args.height));
+		      JVMArgs.push(args.height);
 		      JVMArgs.push('--width');
-		      JVMArgs.push(Number(args.width));
+		      JVMArgs.push(args.width);
 
 		      Jre.loadJrePath().then((bin) => {
 		        console.log(JSON.stringify(JVMArgs));

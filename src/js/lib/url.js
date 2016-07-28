@@ -6,7 +6,7 @@ const versions = `${cdn}/versions/list.json`;
 const libraries    = 'https://libraries.minecraft.net';
 const librariesCN  = `${cdn}/libraries`;
 const assetsCDN = `${cdn}/assets/<index>/<hash>`;
-const assetsJsonCDN = `https://authentication.x-speed.cc/minecraft/assets/<key>.json`
+const assetsJsonCDN = `${cdn}/assets/<key>.json`
 
 module.exports = {
 
@@ -36,6 +36,7 @@ module.exports = {
       return _url;
     },
 
+    /* 获取assets Json URL */
     getAssetJsonForChinaUser(key){
       const _url =assetsJsonCDN.replace(/<key>/g, key);
       console.log('download assetsJson url:', _url);
