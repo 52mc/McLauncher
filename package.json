@@ -23,6 +23,7 @@
     "adm-zip": "^0.4.7",
     "angular": "^1.5.8",
     "angular-animate": "^1.5.8",
+    "angular-nice-bar": "^1.0.3",
     "angular-route": "^1.5.8",
     "angularjs": "0.0.1",
     "babel-core": "^6.11.4",

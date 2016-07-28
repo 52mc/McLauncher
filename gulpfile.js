@@ -80,7 +80,7 @@ gulp.task('package', ['build'], function (){
 		platform: platforms[2],
 		// options
 		'app-version':'0.0.1',
-		out: path.join(__dirname, 'build')
+		out: path.join(__dirname, 'build'),
 	}, function done_callback (err, appPaths) {
 		if(!err){
 			console.log('package done!');

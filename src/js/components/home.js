@@ -37,11 +37,16 @@ angular.module('home', [
         width: conf.area.width,
         height: conf.area.height,
         xmx: 512,
-        xms: conf.memory
+        xms: conf.memory,
+        jre: conf.jre
       };
       if(version === '0.0.0'){
         return initState('请选择Minecraft版本');
       }
+      if(args.jre.home === ''){
+        return initState('请设置Java所在路径');
+      }
+
       console.log('launching Minecraft, version: %s, args: %o.', version, args);
 
       // ========== Core ==========

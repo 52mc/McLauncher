@@ -302,8 +302,6 @@ angular.module('download', [
 						const fd_assets_indexes = `${fd_assets_inner}/indexes/`;
 						const fd_assets_objects = `${fd_assets_inner}/objects/`;
 						const assetsIndex = `${fd_assets_indexes}${indexFile.assets}.json`;
-						// const assetsIndexDir = `${fd_assets}${indexFile.assets}/indexes/`;
-						// const assetsObjectDir = `${fd_assets}${indexFile.assets}/objects/`;
 
 						if (!fs.existsSync(`${fd_assets_inner}`)) {
 							io.createFolderSync(`${fd_assets_inner}`);
@@ -459,7 +457,10 @@ angular.module('download', [
 		        xms: 1024,
 		        width: 854,
 		        height: 480,
-		        player: 'unknow'
+		        player: 'unknow',
+						jre: {
+							home: ''
+						}
 		      }, _args);
 		      var JVMArgs = [];
 		      if(!fs.existsSync(jsonPath)){
@@ -525,19 +526,27 @@ angular.module('download', [
 		      JVMArgs.push('--width');
 		      JVMArgs.push(args.width);
 
-		      Jre.loadJrePath().then((bin) => {
-		        console.log(JSON.stringify(JVMArgs));
-		        const child = spawn(bin, JVMArgs, { cwd: fd_root });
-		        child.on('error', (err) =>  TaskEvent.emit('error', err));
-		        child.stdout.on('data', (data) => TaskEvent.emit('message', data));
-		        child.stderr.on('data', (data) => TaskEvent.emit('message', data));
-		        child.on('exit', (code) => TaskEvent.emit('exit', code));
-		        child.stdout.setEncoding('utf8');
-		        TaskEvent.emit('done');
-		      }).catch((err) => {
-		        console.log(err);
-		        TaskEvent.emit('error', '找不到JAVA环境');
-		      });
+					console.log(args.jre.home, JSON.stringify(JVMArgs));
+					const child = spawn(args.jre.home, JVMArgs, { cwd: fd_root });
+					child.on('error', (err) =>  TaskEvent.emit('error', err));
+					child.stdout.on('data', (data) => TaskEvent.emit('message', data));
+					child.stderr.on('data', (data) => TaskEvent.emit('message', data));
+					child.on('exit', (code) => TaskEvent.emit('exit', code));
+					child.stdout.setEncoding('utf8');
+					TaskEvent.emit('done');
+		      // Jre.loadJrePath().then((bin) => {
+		      //   console.log(JSON.stringify(JVMArgs));
+		      //   const child = spawn(bin, JVMArgs, { cwd: fd_root });
+		      //   child.on('error', (err) =>  TaskEvent.emit('error', err));
+		      //   child.stdout.on('data', (data) => TaskEvent.emit('message', data));
+		      //   child.stderr.on('data', (data) => TaskEvent.emit('message', data));
+		      //   child.on('exit', (code) => TaskEvent.emit('exit', code));
+		      //   child.stdout.setEncoding('utf8');
+		      //   TaskEvent.emit('done');
+		      // }).catch((err) => {
+		      //   console.log(err);
+		      //   TaskEvent.emit('error', '找不到JAVA环境');
+		      // });
 
 		    }
 		  }

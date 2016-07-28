@@ -25,8 +25,7 @@ body{
 
 body.theme-default {
   color: #444;
-  // background: @color1 url(../assets/bg.jpg) no-repeat 0 0;
-  background: #A8CDFF url(../assets/bg2.png) no-repeat 50% 0;
+  background: #c3deff url(../assets/bg.png) no-repeat 50% 0;
   background-size: cover;
   .wrapper{
     width: 65%;
@@ -107,6 +106,7 @@ body.theme-default {
   .group{
     margin-bottom: 8px;
     text-align: left;
+    position: relative;
     > label{
       display: inline-block;
       width: 80px;
@@ -123,6 +123,27 @@ body.theme-default {
     }
     input {
       width: 230px;
+      border: 1px solid #f5f5f5;
+      &:focus{
+        border-color: #7ebaff;
+      }
+    }
+    .autofind{
+      padding-right: 60px;
+    }
+    .autofind-btn{
+      font-size: 0.9em;
+      position: absolute;
+      right: 15px;
+      top: 9.5px;
+      padding: 0 3px;
+      background: #dee9fa;
+      color: #7ebaff;
+      cursor: pointer;
+      &:hover{
+        background: #7ebaff;
+        color: #fff;
+      }
     }
   }
   .back,.version{

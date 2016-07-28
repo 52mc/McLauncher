@@ -16,7 +16,8 @@
 
   <div class="group">
     <label for="">JVM所在目录</label>
-    <input class="control" type="text" name="name" ng-model="config.jre.home" ng-click="openFileDialog()" readonly="readonly"/>
+    <input class="control autofind" type="text" name="name" ng-model="config.jre.home" title="{{config.jre.home}}" ng-click="openFileDialog()" readonly="readonly"/>
+    <a class="autofind-btn" ng-click="autoFindJava()">自动检测</a>
   </div>
 
   <div class="group">
