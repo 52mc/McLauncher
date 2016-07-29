@@ -4,14 +4,15 @@ const io = require('./io');
 module.exports = class McConfig {
   _default = {
     player: 'Unknow',
-    memory: 1024,
+    xmx: 256,
+    xms: 1024,
     version: '0.0.0',
     area: {
       width: 854,
       height: 480
     },
     jre: {
-      version: '1.7',
+      version: '',
       home: ''
     },
     downloaded: []

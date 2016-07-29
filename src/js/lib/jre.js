@@ -29,6 +29,25 @@ exports.which = function (arg) {
   });
 }
 
+exports.loadJre = function (){
+	return new Promise((resolve, reject) => {
+		var local;
+		this.loadJrePath().then((bin) => {
+			local = bin;
+			return this.localJreVersion();
+		}).then((version) => {
+			console.log(111,version);
+			resolve({
+				path: local,
+				version: version
+			});
+		}).catch((err) => {
+			console.log(222,err);
+			reject(err);
+		});
+	});
+}
+
 exports.loadJrePath = function (){
 	return new Promise((resolve, reject) => {
 		const Java = this.which('java');
@@ -54,8 +73,8 @@ exports.localJreVersion = function () {
 				output += data;
 			});
 			Version.stderr.on('end', () => {
-				var vs = /(\w+\.){1}\w+/.exec(output);
-				resolve( vs===null ? null : vs[0] );
+				var vs = /(\w+\.){2}\w+/.exec(output);
+				resolve( vs === null ? null : vs[0] );
 			});
 			Version.on('error', (err) => {
 				reject(e);
@@ -65,10 +84,3 @@ exports.localJreVersion = function () {
 	  });
 	});
 }
-
-// core.jre.localJreVersion()
-//   .then((version) => {
-//     console.log(`Java版本为${version}`);
-//   }).catch((err) => {
-//     console.log('获取Java版本信息失败', err);
-//   });

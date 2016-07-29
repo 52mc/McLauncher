@@ -10,9 +10,8 @@ module.exports = 'download';
 angular.module('download', [
 		require('./factory')
 	])
-	.factory('MinecraftCore', ['Core', 'Constants', 'Manifest', 'Url', function(Core, Constants, Manifest, Url) {
+	.factory('MinecraftCore', ['IO', 'Constants', 'Manifest', 'Url', function(IO, Constants, Manifest, Url) {
 		return function(version){
-			const io = Core.io;
 			//  versions文件夹
 			const fd_versions = Constants.FDS.versions;
 			// 当前版本文件夹
@@ -24,11 +23,11 @@ angular.module('download', [
 				start: () => {
 					// 创建game root文件夹
 					const fd_root = Constants.FDS.root;
-					io.createFolderSync(fd_root);
+					IO.createFolderSync(fd_root);
 					console.info(`created ${fd_root} folder.`);
 					// 创建versions文件夹
 					if (!fs.existsSync(fd_versions)) {
-						io.createFolderSync(fd_versions);
+						IO.createFolderSync(fd_versions);
 						console.info(`created ${fd_versions} folder.`);
 					}
 
@@ -58,7 +57,7 @@ angular.module('download', [
 								return TaskEvent.emit('error', `Can not find [${version}] from mojang server.`);
 							}
 							if (!fs.existsSync(`${fd_version}`)) {
-								io.createFolderSync(`${fd_version}`);
+								IO.createFolderSync(`${fd_version}`);
 								console.info(`created ${fd_version} folder.`);
 							}
 
@@ -67,10 +66,10 @@ angular.module('download', [
 
 							console.log('json file: %s', versions[version].json);
 
-							var versionContent = yield io.request(versions[version].json);
-							yield io.writeFile(jsonPath, versionContent);
+							var versionContent = yield IO.request(versions[version].json);
+							yield IO.writeFile(jsonPath, versionContent);
 							const clientUrl = Url.getClientUrl(version);
-							const DownloadProcess = io.downloadFileToDisk(clientUrl, jarPath, 10);
+							const DownloadProcess = IO.downloadFileToDisk(clientUrl, jarPath, 10);
 							DownloadProcess.on('process', (process) => TaskEvent.emit('process', process));
 							DownloadProcess.on('done', () => {
 								fs.writeFileSync(lockPath, '');
@@ -87,9 +86,8 @@ angular.module('download', [
 		}
 	}])
 
-	.factory('MinecraftLibraries', ['Core', 'Constants', 'Url', function(Core, Constants, Url) {
+	.factory('MinecraftLibraries', ['IO', 'Constants', 'Url', function(IO, Constants, Url) {
 		return function(version) {
-			const io = Core.io;
 			//  versions文件夹
 			const fd_versions = Constants.FDS.versions;
 			// libraries文件夹
@@ -110,11 +108,11 @@ angular.module('download', [
 				event: TaskEvent,
 				start: () => {
 					// 创建文件夹
-					io.createFolderSync(fd_libs);
+					IO.createFolderSync(fd_libs);
 					console.info(`created ${fd_libs} folder.`);
-					io.createFolderSync(fd_natives);
+					IO.createFolderSync(fd_natives);
 					console.info(`created ${fd_natives} folder.`);
-				  io.createFolderSync(fd_temps);
+				  IO.createFolderSync(fd_temps);
 					console.info(`created ${fd_temps} folder.`);
 
 
@@ -126,12 +124,12 @@ angular.module('download', [
 					}
 
 					if (!fs.existsSync(fd_lib)) {
-						io.createFolderSync(fd_lib);
+						IO.createFolderSync(fd_lib);
 						console.info(`created ${fd_lib} folder.`);
 					}
 
 					if (!fs.existsSync(fd_native)) {
-						io.createFolderSync(fd_native);
+						IO.createFolderSync(fd_native);
 						console.info(`created ${fd_native} folder.`);
 					}
 
@@ -143,7 +141,7 @@ angular.module('download', [
 					var libraries = [];
 					var start = Promise.coroutine(function*() {
 						try {
-							const indexFile = JSON.parse(yield io.readFile(jsonPath)); //索引文件
+							const indexFile = JSON.parse(yield IO.readFile(jsonPath)); //索引文件
 							indexFile.libraries.map(lib => {
 								if (lib.name.split(':').length != 3) return;
 								//  静态类库
@@ -203,8 +201,8 @@ angular.module('download', [
 									});
 									continue;
 								}
-								yield io.createFolders(fullPath.substring(0, fullPath.lastIndexOf('/'))); //需要将文件名截取掉，只建立文件夹 /path/to/file.jar --> /path/to
-								yield io.downloadFileToDiskPromise(Url.getLibrariesForChinaUser(libUrl), fullPath, 5);
+								yield IO.createFolders(fullPath.substring(0, fullPath.lastIndexOf('/'))); //需要将文件名截取掉，只建立文件夹 /path/to/file.jar --> /path/to
+								yield IO.downloadFileToDiskPromise(Url.getLibrariesForChinaUser(libUrl), fullPath, 5);
 								TaskEvent.emit('libraries_process', {
 									count: i + 1,
 									total: libraries.length
@@ -218,10 +216,10 @@ angular.module('download', [
 						try {
 							TaskEvent.emit('natives');
 							// 建立native version文件夹
-							yield io.createFolders(fd_native.substring(0, fd_native.lastIndexOf('/')));
+							yield IO.createFolders(fd_native.substring(0, fd_native.lastIndexOf('/')));
 							// 建立临时native version文件夹
 							if (!fs.existsSync(fd_temp)) {
-								io.createFolderSync(fd_temp);
+								IO.createFolderSync(fd_temp);
 								console.info(`created ${fd_temp} folder.`);
 							}
 							// 下载文件到临时目录
@@ -235,9 +233,9 @@ angular.module('download', [
 									console.info(`natives lib [${fileName}] [${i + 1}/${natives.length}] skip.`);
 								} else {
 									// 下载
-									yield io.downloadFileToDiskPromise(Url.getLibrariesForChinaUser(nativeUrl), tempFilePath, 5);
+									yield IO.downloadFileToDiskPromise(Url.getLibrariesForChinaUser(nativeUrl), tempFilePath, 5);
 									console.info(`natives lib [${fileName}] [${i + 1}/${natives.length}] download.`);
-									yield io.wait(500);
+									yield IO.wait(500);
 								}
 
 								try {
@@ -253,7 +251,7 @@ angular.module('download', [
 								}
 							}
 
-							io.writeFileSync(lockPath, '');
+							IO.writeFileSync(lockPath, '');
 							TaskEvent.emit('done');
 
 						} catch (e) {
@@ -266,9 +264,8 @@ angular.module('download', [
 		}
 	}])
 
-	.factory('MinecraftAssets', ['Core', 'Constants', 'Url', function(Core, Constants, Url){
+	.factory('MinecraftAssets', ['IO', 'Constants', 'Url', function(IO, Constants, Url){
 		return function(version) {
-			const io = Core.io;
 			//  versions文件夹
 			const fd_versions = Constants.FDS.versions;
 			// assets文件夹
@@ -283,7 +280,7 @@ angular.module('download', [
 				event: TaskEvent,
 				start: () => {
 					// 创建文件夹
-					io.createFolderSync(fd_assets);
+					IO.createFolderSync(fd_assets);
 				  console.info(`created ${fd_assets} folder.`);
 
 					if (!fs.existsSync(jsonPath)){
@@ -291,12 +288,12 @@ angular.module('download', [
 					}
 
 					if (!fs.existsSync(fd_assets)) {
-						io.createFolderSync(fd_assets);
+						IO.createFolderSync(fd_assets);
 						console.info(`created ${fd_assets} folder.`);
 					}
 
 					var start = Promise.coroutine(function *(){
-						const indexFile = JSON.parse(yield io.readFile(jsonPath)); //索引文件
+						const indexFile = JSON.parse(yield IO.readFile(jsonPath)); //索引文件
 
 						const fd_assets_inner = `${fd_assets}${indexFile.assets}`;
 						const fd_assets_indexes = `${fd_assets_inner}/indexes/`;
@@ -304,17 +301,17 @@ angular.module('download', [
 						const assetsIndex = `${fd_assets_indexes}${indexFile.assets}.json`;
 
 						if (!fs.existsSync(`${fd_assets_inner}`)) {
-							io.createFolderSync(`${fd_assets_inner}`);
+							IO.createFolderSync(`${fd_assets_inner}`);
 							console.info(`created ${fd_assets_inner} folder.`);
 						}
 
 						if (!fs.existsSync(fd_assets_indexes)) {
-							io.createFolderSync(fd_assets_indexes);
+							IO.createFolderSync(fd_assets_indexes);
 							console.info(`created ${fd_assets_indexes} folder.`);
 						}
 
 						if (!fs.existsSync(fd_assets_objects)) {
-							io.createFolderSync(fd_assets_objects);
+							IO.createFolderSync(fd_assets_objects);
 							console.info(`created ${fd_assets_objects} folder.`);
 						}
 
@@ -326,8 +323,8 @@ angular.module('download', [
 							return;
 						}
 
-						var assetsList = yield io.request(Url.getAssetJsonForChinaUser(indexFile.assets));
-						io.writeFileSync(assetsIndex, assetsList);
+						var assetsList = yield IO.request(Url.getAssetJsonForChinaUser(indexFile.assets));
+						IO.writeFileSync(assetsIndex, assetsList);
 						assetsList = JSON.parse(assetsList);
 
 						var taskCount = Object.keys(assetsList.objects).length;
@@ -351,12 +348,12 @@ angular.module('download', [
 								});
 
 								if (taskDone == taskCount) {
-									if (taskError == 0) io.writeFileSync(lockPath, '');
+									if (taskError == 0) IO.writeFileSync(lockPath, '');
 									TaskEvent.emit('done');
 								}
 							}
 
-							io.createFolderSync(folder);
+							IO.createFolderSync(folder);
 
 							/* 判断是否已经下载过 */
 							if (fs.existsSync(fullPath)) {
@@ -365,7 +362,7 @@ angular.module('download', [
 							}
 
 							try {
-								yield io.downloadFileToDiskPromise(Url.getAssetsForChinaUser(index,hash), fullPath, 5);
+								yield IO.downloadFileToDiskPromise(Url.getAssetsForChinaUser(index,hash), fullPath, 5);
 							} catch (ex) {
 								console.log(ex);
 								taskError++;
@@ -380,9 +377,8 @@ angular.module('download', [
 		}
 	}])
 
-	.factory('LaunchMinecraft', ['Core', 'Constants', 'Jre', function(Core, Constants, Jre){
+	.factory('LaunchMinecraft', ['IO', 'Constants', 'Jre', function(IO, Constants, Jre){
 		return function(version, _args) {
-			const io = Core.io;
 
 			const fd_root = Constants.FDS.root;
 			const fd_games = Constants.FDS.games;
@@ -454,11 +450,13 @@ angular.module('download', [
 				start: () => {
 
 		      var args = assignIn({
+						player: 'unknow',
 		        xmx: 256,
 		        xms: 1024,
-		        width: 854,
-		        height: 480,
-		        player: 'unknow',
+						area: {
+							width: 854,
+			        height: 480,
+						},
 						jre: {
 							home: ''
 						}
@@ -478,7 +476,7 @@ angular.module('download', [
 		      JVMArgs.push(`-Duser.home=${fd_ws}`);
 		      JVMArgs.push(`-cp`);
 
-		      const indexFile = JSON.parse(io.readFileSync(jsonPath)); //索引文件
+		      const indexFile = JSON.parse(IO.readFileSync(jsonPath)); //索引文件
 		      const LoadLibrariesString = getLoadLibrariesString(indexFile, version);
 		      JVMArgs.push(`${LoadLibrariesString}${fd_version}${version}.jar`);
 		      JVMArgs.push(indexFile.mainClass);
@@ -523,9 +521,9 @@ angular.module('download', [
 		      });
 
 		      JVMArgs.push('--height');
-		      JVMArgs.push(args.height);
+		      JVMArgs.push(args.area.height);
 		      JVMArgs.push('--width');
-		      JVMArgs.push(args.width);
+		      JVMArgs.push(args.area.width);
 					console.log(args.jre.home, JSON.stringify(JVMArgs));
 					const child = spawn(args.jre.home, JVMArgs, { cwd: fd_root });
 					child.on('error', (err) =>  TaskEvent.emit('error', err));
@@ -534,19 +532,6 @@ angular.module('download', [
 					child.on('exit', (code) => TaskEvent.emit('exit', code));
 					child.stdout.setEncoding('utf8');
 					TaskEvent.emit('done');
-		      // Jre.loadJrePath().then((bin) => {
-		      //   console.log(JSON.stringify(JVMArgs));
-		      //   const child = spawn(bin, JVMArgs, { cwd: fd_root });
-		      //   child.on('error', (err) =>  TaskEvent.emit('error', err));
-		      //   child.stdout.on('data', (data) => TaskEvent.emit('message', data));
-		      //   child.stderr.on('data', (data) => TaskEvent.emit('message', data));
-		      //   child.on('exit', (code) => TaskEvent.emit('exit', code));
-		      //   child.stdout.setEncoding('utf8');
-		      //   TaskEvent.emit('done');
-		      // }).catch((err) => {
-		      //   console.log(err);
-		      //   TaskEvent.emit('error', '找不到JAVA环境');
-		      // });
 
 		    }
 		  }

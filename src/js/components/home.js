@@ -10,7 +10,6 @@ angular.module('home', [
     function ($scope, McConfig, Notice, MinecraftCore, MinecraftLibraries, MinecraftAssets, LaunchMinecraft){
     $scope.menus = [ { icon: 'icon-settings animate-spin', title: 'settings', url: '#/settings' } ];
     $scope.lock = false; //锁定界面
-    $scope.launchText = 'Launch Minecraft';
     $scope.message = '';
     const version = $scope.version = McConfig.get('version');
 
@@ -31,22 +30,15 @@ angular.module('home', [
       showMessage(`Loading...`);
 
       const conf = McConfig.get();
-      var args = {
-        player: conf.player,
-        width: conf.area.width,
-        height: conf.area.height,
-        xmx: 512,
-        xms: conf.memory,
-        jre: conf.jre
-      };
+
       if(version === '0.0.0'){
         return initState('请选择Minecraft版本');
       }
-      if(args.jre.home === ''){
+      if(conf.jre.home === ''){
         return initState('请设置Java所在路径');
       }
 
-      console.log('launching Minecraft, version: %s, args: %o.', version, args);
+      console.log('launching Minecraft, version: %s, args: %o.', version, conf);
 
       // ========== Core ==========
       const DownloadMinecraftProcess = MinecraftCore(version);
@@ -58,7 +50,7 @@ angular.module('home', [
       const DownloadAssetsProcess = MinecraftAssets(version);
       const DownloadAssetsProcessEvent = DownloadAssetsProcess.event;
       //
-      const LaunchMinecraftProcess = LaunchMinecraft(version, args);
+      const LaunchMinecraftProcess = LaunchMinecraft(version, conf);
       const LaunchMinecraftProcessEvent = LaunchMinecraftProcess.event;
 
       // launch event

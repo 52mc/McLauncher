@@ -24,12 +24,14 @@ angular.module('settings', [require('./factory')])
 	  };
 
 		$scope.autoFindJava = function (){
-			Jre.loadJrePath().then((bin) => {
-				$scope.config.jre.home = bin;
+			Jre.loadJre().then((jre) => {
+				console.log('系统Jre信息 %o', jre);
+				$scope.config.jre.home = jre.path;
 				$scope.$apply();
+				Notice.send('success', `成功找到${jre.version}版本的JAVA环境`);
 			}).catch((err) => {
-			  console.log(err);
-			  Notice.send('error', '找不到JAVA环境');
+				Notice.send('error', '找不到JAVA环境，请手动选择JVM地址');
+				console.log('查询系统Jre信息出错... %d', err);
 			});
 		}
 
