@@ -13,26 +13,18 @@ angular.module('factory', [])
 
 	.constant('Constants', Constants)
 
-	.factory('IPC', function() {
-		return IPC;
-	})
+	.constant('IPC', IPC)
 
-	.factory('Url', function() {
-		return Url;
-	})
+	.constant('Url', Url)
 
-	.factory('Core', function() {
-		return Core;
-	})
+	.constant('Core', Core)
 
-	.factory('Jre', function() {
-		return Jre;
-	})
+	.constant('Jre', Jre)
 
 	.factory('Notice', function() {
 		return {
 			send: (msg) => {
-				new Notification('Hello', {
+				new Notification('重要消息', {
 				  body: msg || ''
 				});
 			}

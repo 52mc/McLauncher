@@ -334,7 +334,7 @@ angular.module('download', [
 						var taskDone = 0;
 						var taskError = 0;
 
-						console.log(taskCount);
+						console.log('taskCount:',taskCount);
 						for (var obj in assetsList.objects) {
 							obj = assetsList.objects[obj];
 							var hash = obj.hash;
