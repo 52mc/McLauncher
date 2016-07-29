@@ -95,7 +95,7 @@ gulp.task('package', ['build'], function (){
 		platform: platform,
 		icon: icon,
 		'app-version': pkg.version,
-		out: path.join(__dirname, 'build'),
+		out: path.join(__dirname, 'build')
 	}, function done_callback (err, appPaths) {
 		if(!err){
 			console.log('package done!');

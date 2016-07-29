@@ -1,5 +1,5 @@
 const Promise = require('bluebird');
-const {dialog, shell} = require('electron');
+const {dialog, shell, autoUpdater} = require('electron');
 
 exports.openFileDialog = function (title) {
   return new Promise(function (resolve, reject){
