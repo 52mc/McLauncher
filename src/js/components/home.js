@@ -8,12 +8,11 @@ angular.module('home', [
   .controller('HomeCtrl', [
     '$scope', 'McConfig', 'Notice', 'MinecraftCore', 'MinecraftLibraries', 'MinecraftAssets', 'LaunchMinecraft',
     function ($scope, McConfig, Notice, MinecraftCore, MinecraftLibraries, MinecraftAssets, LaunchMinecraft){
-    $scope.menus = [ { icon: 'icon-settings', title: 'settings', url: '#/settings' } ];
+    $scope.menus = [ { icon: 'icon-settings animate-spin', title: 'settings', url: '#/settings' } ];
     $scope.lock = false; //锁定界面
     $scope.launchText = 'Launch Minecraft';
     $scope.message = '';
     const version = $scope.version = McConfig.get('version');
-    console.log(version);
 
     function showMessage(message, exit){
       $scope.message = `${message}`;
