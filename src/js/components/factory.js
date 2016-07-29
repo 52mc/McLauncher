@@ -2,6 +2,7 @@ module.exports = 'factory';
 
 const IO = require('../lib/io');
 const Jre = require('../lib/jre');
+const StandardLibraries = require('../lib/standardlibraries');
 const Config = require('../lib/config');
 const Manifest = require('../lib/manifest');
 const Constants = require('../lib/constants');
@@ -20,6 +21,8 @@ angular.module('factory', [])
 	.constant('IO', IO)
 
 	.constant('Jre', Jre)
+
+	.constant('StandardLibraries', StandardLibraries)
 
 	.factory('Notice', function() {
 		return {

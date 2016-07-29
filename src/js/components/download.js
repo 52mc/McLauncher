@@ -5,6 +5,17 @@ const spawn = require('child_process').spawn;
 const Promise = require('bluebird');
 const assignIn = require('lodash').assignIn;
 const uuid = require('node-uuid');
+const platform = (function(platform){
+	var os;
+	switch (platform) {
+		case 'win32'	: os = 'windows'; break;
+		case 'darwin'	: os = 'osx'; break;
+		case 'linux'	:
+		case 'freebsd': os = 'linux'; break;
+		default				: os = 'windows'; break;
+	}
+	return os;
+})(process.platform);
 
 module.exports = 'download';
 angular.module('download', [
@@ -377,7 +388,7 @@ angular.module('download', [
 		}
 	}])
 
-	.factory('LaunchMinecraft', ['IO', 'Constants', 'Jre', function(IO, Constants, Jre){
+	.factory('LaunchMinecraft', ['IO', 'Constants', 'Jre', 'StandardLibraries', function(IO, Constants, Jre, StandardLibraries){
 		return function(version, _args) {
 
 			const fd_root = Constants.FDS.root;
@@ -400,50 +411,6 @@ angular.module('download', [
 			const jsonPath = `${fd_version}${version}.json`;
 
 			const TaskEvent = new EventEmitter();
-
-			const getLoadLibrariesString = function (indexFile, version){
-			  var natives   = [];
-			  var libraries = [];
-			  var LoadLibrariesString = "";
-			  try{
-			    indexFile.libraries.map(lib => {
-			      if (lib.name.split(':').length !== 3) return;
-			      /* 静态类库 */
-			      if (lib.extract != null && lib.natives != null && lib.natives['osx'] != null) {
-			        if (lib.rules == null) {
-			          return natives.push(lib);
-			        }
-			        var isAllow = false;
-			        lib.rules.map(rule => {
-			          if (rule.os != null && rule.os == 'osx') {
-			            if (rule.action == 'allow') isAllow = true;
-			          } else {
-			            var keys = [];
-			            for(var k in rule) keys.push(k);
-			            if (keys.length == 1 && rule.action != null) {
-			              isAllow = rule.action == 'allow';
-			            }
-			          }
-			        });
-			        if (isAllow) return natives.push(lib);
-			      }
-			      if (lib.natives == null && lib.extract == null) libraries.push(lib);
-			    });
-			    for (var i = 0; i < libraries.length; i++) {
-			      const lib  = libraries[i];
-			      const path = lib.downloads.artifact.path;
-			      const fullPath = `${fd_lib}${path}`;
-			      /* 判断lib是否已经存在 */
-			      if(fs.existsSync(fullPath)){
-			        LoadLibrariesString += `${fullPath}:`;
-			      }
-			    }
-			  } catch (err) {
-			    return null;
-			  } finally{
-			    return LoadLibrariesString;
-			  }
-			}
 
 			return {
 				event: TaskEvent,
@@ -477,7 +444,8 @@ angular.module('download', [
 		      JVMArgs.push(`-cp`);
 
 		      const indexFile = JSON.parse(IO.readFileSync(jsonPath)); //索引文件
-		      const LoadLibrariesString = getLoadLibrariesString(indexFile, version);
+					const standard = new StandardLibraries(fd_lib, indexFile, platform);
+					const LoadLibrariesString = standard.buildArgs();
 		      JVMArgs.push(`${LoadLibrariesString}${fd_version}${version}.jar`);
 		      JVMArgs.push(indexFile.mainClass);
 
@@ -524,7 +492,7 @@ angular.module('download', [
 		      JVMArgs.push(args.area.height);
 		      JVMArgs.push('--width');
 		      JVMArgs.push(args.area.width);
-					console.log(args.jre.home, JSON.stringify(JVMArgs));
+					console.log(args.jre.home, JVMArgs.join(' '));
 					const child = spawn(args.jre.home, JVMArgs, { cwd: fd_root });
 					child.on('error', (err) =>  TaskEvent.emit('error', err));
 					child.stdout.on('data', (data) => TaskEvent.emit('message', data));

@@ -85,3 +85,5 @@ ipcMain.on('open-file-dialog', function(event, callback){
 ipcMain.on('show-folder', function(event, fullPath){
   helper.showFolder(fullPath);
 });
+
+console.log(process.platform);
