@@ -1,9 +1,19 @@
 const Promise = require('bluebird');
 const fs = require('fs');
+const path = require('path');
 const mkdirp  = require('mkdirp');
 const EventEmitter = require('events').EventEmitter;
 const fetch = require('node-fetch');
 const ncp = require('ncp');
+
+exports.stat = function (path){
+  return new Promise((resolve, reject) => {
+    fs.stat(path, function(err, stats){
+      err ? reject(err) : resolve(stats);
+    });
+  });
+}
+
 
 exports.copy = function (source, destination){
   return new Promise((resolve, reject) => {
@@ -63,12 +73,15 @@ exports.writeFile = function (fileName, content) {
 }
 
 exports.writeFileSync = function (fileName, content) {
-  fs.writeFileSync(fileName, content, 'utf8');
+  this.createFolders(path.dirname(fileName)).then(() => {
+    fs.writeFileSync(fileName, content, 'utf8');
+  }).catch(err => {
+    console.error('文件写入失败，创建父文件夹失败。', fileName, err);
+  });
 }
 
 exports.writeBufferToFile = function (fileName, data) {
   return new Promise((resolve, reject) => {
-    console.log(111,fileName);
     fs.writeFile(fileName, data , err => {
       err ? reject(err) : resolve();
     });
@@ -117,13 +130,13 @@ exports.getDownloadBuffer = function (url) {
   return DownloadProcessEvent;
 }
 
-exports.downloadFileToDisk = function (url, path, retryCount) {
+exports.downloadFileToDisk = function (url, local, retryCount) {
   if (retryCount === undefined) retryCount = 0;
   const DownloadProcessEvent = this.getDownloadBuffer(url);
   var DownloadFileProcessEvent = new EventEmitter();
   DownloadProcessEvent.on('process', process => DownloadFileProcessEvent.emit('process', process));
   DownloadProcessEvent.on('done', (buffer) => {
-    this.writeBufferToFile(path, buffer)
+    this.writeBufferToFile(local, buffer)
       .then(DownloadFileProcessEvent.emit('done'))
       .catch((e) => DownloadFileProcessEvent.emit('error', e));
   });
@@ -140,7 +153,7 @@ exports.downloadFileToDisk = function (url, path, retryCount) {
       const done = DownloadFileProcessEvent.listeners('done');
       const error = DownloadFileProcessEvent.listeners('error');
       const retry = DownloadFileProcessEvent.listeners('retry');
-      DownloadFileProcessEvent = this.downloadFileToDisk(url, path, retryCount);
+      DownloadFileProcessEvent = this.downloadFileToDisk(url, local, retryCount);
       process.forEach((item) => {
         DownloadFileProcessEvent.addListener('process', item);
       });
@@ -163,5 +176,11 @@ exports.downloadFileToDiskPromise = function (){
     const DownloadFileProcess = this.downloadFileToDisk.apply(this, arguments);
     DownloadFileProcess.on('done', () => resolve());
     DownloadFileProcess.on('error', err => reject(err));
+    DownloadFileProcess.on('retry', (count) => {
+      console.log(`正在重试...${count}`);
+    });
+    DownloadFileProcess.on('process', (process) => {
+      // console.log(`${process.Process}`);
+    });
   });
 }

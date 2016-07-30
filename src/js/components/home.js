@@ -20,7 +20,7 @@ angular.module('home', [
 
 			function showMessage(message, exit) {
 				$scope.message = `${message}`;
-				exit && $scope.$apply();
+				exit && setTimeout(function(){ $scope.$apply(); });
 			}
 
 			// 重置状态

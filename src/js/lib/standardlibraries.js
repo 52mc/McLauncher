@@ -1,5 +1,6 @@
 const path = require('path');
 const sep = path.sep;
+const arch = process.arch;
 
 module.exports = class StandardLibraries {
 
@@ -49,7 +50,14 @@ module.exports = class StandardLibraries {
 				lib.allows = allows;
 				libs.push(lib);
 			} else {
-				const key = item.natives[this.platform];
+				var key = item.natives[this.platform];
+				if(key === undefined) {
+					return;
+				}
+				// 替换windows的arch
+				if(key.indexOf('${arch}') !== -1){
+					key = key.replace('${arch}', arch);
+				}
 				const classifiers = item.downloads.classifiers;
 				const native_artifact = classifiers[key];
 				lib = this._transferStandardLib(native_artifact);

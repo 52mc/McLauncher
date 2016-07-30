@@ -6,6 +6,7 @@ const StandardLibraries = require('../lib/standardlibraries');
 const Config = require('../lib/config');
 const Manifest = require('../lib/manifest');
 const Constants = require('../lib/constants');
+const Folder = require('../lib/folder');
 const Url = require('../lib/url');
 
 const IPC = require('electron').ipcRenderer;
@@ -13,6 +14,8 @@ const IPC = require('electron').ipcRenderer;
 angular.module('factory', [])
 
 	.constant('Constants', Constants)
+
+	.constant('Folder', Folder)
 
 	.constant('IPC', IPC)
 

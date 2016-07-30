@@ -1,8 +1,9 @@
 module.exports = 'settings';
 angular.module('settings', [require('./factory')])
-	.controller('SettingsCtrl', ['$scope', 'McConfig', 'IPC', 'Jre', 'Notice', 'Constants', function ($scope, McConfig, IPC, Jre, Notice, Constants){
+	.controller('SettingsCtrl', ['$scope', 'McConfig', 'IPC', 'Jre', 'Notice', 'Folder', function ($scope, McConfig, IPC, Jre, Notice, Folder){
 
 	  var config = $scope.config = McConfig.get();
+		const fd = Folder.init(config.version);
 
 		// 已经离线的版本，可以打开游戏目录
 		$scope.open = (config.downloaded.indexOf(config.version) != -1);
@@ -36,7 +37,7 @@ angular.module('settings', [require('./factory')])
 		}
 
 		$scope.openGameFd = function (){
-			IPC.send('show-folder', `${Constants.FDS.games}${config.version}/`);
+			IPC.send('show-folder', fd.game);
 		}
 
 		// 配置项中jre为空时，自动执行查找jre
