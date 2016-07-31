@@ -1,5 +1,6 @@
 module.exports = 'home';
 require('../../../node_modules/spinkit/css/spinners/7-three-bounce.css');
+const pkg = require('../../../package.json');
 
 angular.module('home', [
 		require('./factory'),
@@ -8,6 +9,8 @@ angular.module('home', [
 	.controller('HomeCtrl', [
 		'$scope', 'McConfig', 'Notice', 'MinecraftCore', 'MinecraftLibraries', 'MinecraftAssets', 'LaunchMinecraft',
 		function($scope, McConfig, Notice, MinecraftCore, MinecraftLibraries, MinecraftAssets, LaunchMinecraft) {
+
+			$scope.appVersion = pkg.version
 
 			$scope.menus = [{
 				icon: 'icon-settings animate-spin',

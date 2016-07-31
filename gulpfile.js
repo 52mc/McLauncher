@@ -51,7 +51,8 @@ gulp.task('webpack', function(callback) {
 			throw new gutil.PluginError('webpack', err);
 		}
 		// windows下会报错
-		process.platform !== 'windows' && gutil.log('[webpack]', stats.toString({
+		// process.platform -> win32 or win64
+		process.platform !== 'win32' && gutil.log('[webpack]', stats.toString({
 			modules: false,
 			colors: true
 		}));
@@ -66,6 +67,7 @@ gulp.task('watch', ['build'], function () {
     gulp.watch('./src/css/*.less', ['less']);
     gulp.watch(['./src/js/**/*.js'], ['webpack']);
     gulp.watch(['./src/index.html',
+				'./src/enter.js',
 				'./src/helper.js',
 				'./src/template/*.html',
         './package.json',
@@ -76,7 +78,7 @@ var archs = ['ia32','x64','all'];
 var platforms = ['linux', 'win32', 'darwin', 'mas', 'all'];
 gulp.task('package', ['build'], function (){
 	var arch = archs[1];
-	var platform = platforms[2];
+	var platform = platforms[1];
 	var icon = null;
 	switch (platform) {
 		case 'linux':

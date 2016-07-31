@@ -19,6 +19,10 @@ body {
 	-webkit-app-region: drag;
 	overflow: hidden;
 }
+button, a{
+	-webkit-app-region: no-drag!important;
+	outline: none;
+}
 body.theme-default {
 	color: #444;
 	background: #c3deff url("../assets/bg.png") no-repeat 50% 0;
@@ -33,7 +37,16 @@ body.theme-default {
 		right: 5%;
 	}
 }
+
 .home {
+	.app-version{
+		position: absolute;
+		bottom: -20px;
+		left: -55px;
+		color: #fff;
+		font-size: 0.8rem;
+		opacity: 0.5;
+	}
 	.title {
 		margin: 30px auto 15px;
 		height: 50px;
@@ -70,6 +83,7 @@ body.theme-default {
 		left: 5%;
 		right: 5%;
 		text-align: center;
+		-webkit-app-region: no-drag;
 	}
 	.message {
 		font-family: "04b08";
@@ -163,6 +177,9 @@ body.theme-default {
 	font-size: 0.8rem;
 	.version-info {
 		// height: 5%;
+	}
+	.version-list,.version-action{
+		-webkit-app-region: no-drag;
 	}
 	.version-list {
 		height: 77%;
