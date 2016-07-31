@@ -74,30 +74,21 @@ gulp.task('watch', ['build'], function () {
         './src/assets/**/*.*'], ['copy']);
 });
 
-var archs = ['ia32','x64','all'];
-var platforms = ['linux', 'win32', 'darwin', 'mas', 'all'];
 gulp.task('package', ['build'], function (){
-	var arch = archs[1];
-	var platform = platforms[1];
-	var icon = null;
-	switch (platform) {
-		case 'linux':
-			icon = path.join(__dirname, 'app', 'assets', 'tray.png');
-			break;
-		case 'win32':
-			icon = path.join(__dirname, 'app', 'assets', 'tray.ico');
-			break;
-		case 'darwin':
-			icon = path.join(__dirname, 'app', 'assets', 'app.icns');
-			break;
-		default:
-	};
 	packager({
-		arch: arch,
-		dir: path.join(__dirname, 'app'),
-		platform: platform,
-		icon: icon,
+		arch: ['ia32','x64'],
+		platform: ['linux', 'win32', 'darwin'],
+		icon: path.join(__dirname, 'app', 'assets', 'tray'),
 		'app-version': pkg.version,
+		'app-copyright': 'Copyright (c) 2016 eeve All Rights Reserved.',
+		'version-string': {
+			CompanyName: 'eeve',
+			FileDescription: '由eeve开发的一款全平台Minecraft启动器',
+			OriginalFilename: 'McLauncher.exe',
+			ProductName: 'Minecraft启动器',
+			InternalName: 'McLauncher'
+		},
+		dir: path.join(__dirname, 'app'),
 		out: path.join(__dirname, 'build')
 	}, function done_callback (err, appPaths) {
 		if(!err){

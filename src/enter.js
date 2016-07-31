@@ -1,12 +1,14 @@
 // 使用内置模块时禁用旧样式
 process.env.ELECTRON_HIDE_INTERNAL_MODULES = 'true'
-
+const pkg = require('./package.json');
 const {app, BrowserWindow, ipcMain, dialog, Menu, Tray, shell} = require('electron');  // 控制应用生命周期的模块。
 
 // 保持一个对于 window 对象的全局引用，不然，当 JavaScript 被 GC，
 // window 会被自动地关闭
 var mainWindow = null;
 var appIcon = null;
+
+app.setAppUserModelId('me.eeve.mc.launcher.' + pkg.version.replace('.','_'));
 
 // 当所有窗口被关闭了，退出。
 app.on('window-all-closed', function() {
@@ -25,7 +27,7 @@ var createWindow = function () {
     resizable: false,
     frame: false,
     titleBarStyle: 'hidden',
-    skipTaskbar: true
+    skipTaskbar: false
   });
 
   // 启用开发工具。
