@@ -217,20 +217,8 @@ angular.module('download', [
 							return;
 						}
 
-						const assetsVersion = Folder.init(assetsid);
-						if(fs.existsSync(assetsVersion.assetsLockFile)){
-							console.info(`检测到资源Id：${assetsid}已经存在，直接拷贝...`);
-							// 拷贝文件到assets
-							yield IO.copy(assetsVersion.assets, fd.assets);
-							console.log(`资源已经拷贝当前版本目录${fd.assets}中...`);
-							// 锁定assets
-							IO.writeFileSync(fd.assetsLockFile, '');
-							TaskEvent.emit('done');
-							return;
-						}
-
-						const fd_assets_indexes = `${fd.assets}indexes/`;
-						const fd_assets_objects = `${fd.assets}objects/`;
+						const fd_assets_indexes = `${fd.assets}${assetsid}/indexes/`;
+						const fd_assets_objects = `${fd.assets}${assetsid}/objects/`;
 						const assetsIndex = `${fd_assets_indexes}${assetsid}.json`;
 
 						yield IO.createFolders(fd_assets_indexes);
@@ -349,7 +337,7 @@ angular.module('download', [
 		            item = `${fd.game}`;
 		            break;
 		          case '${assets_root}':
-		            item = `${fd.assets}`;
+		            item = `${fd.assets}${indexFile.assets}`;
 		            break;
 		          case '${assets_index_name}':
 		            item = indexFile.assets;

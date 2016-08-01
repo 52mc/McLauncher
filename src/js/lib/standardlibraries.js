@@ -14,6 +14,7 @@ module.exports = class StandardLibraries {
 		this.basedir = basedir;
 		this.content = content;
 		this.platform = platform;
+		this.sep = platform === 'windows' ? ';' : ':';
 	}
 
 	/**
@@ -28,7 +29,7 @@ module.exports = class StandardLibraries {
 			if(lib.allows.indexOf(this.platform) === -1){
 				return;
 			} else {
-				args += path.normalize(`${this.basedir}${sep}${lib.absolute}:`);
+				args += path.normalize(`${this.basedir}${sep}${lib.absolute}${this.sep}`);
 			}
 		});
 		return args;
@@ -36,7 +37,6 @@ module.exports = class StandardLibraries {
 
 	// 获取从原始的Libraries中获取libs和natives并转换为标准的libs和natives格式
 	getlibsAndNativesFromLibraries() {
-		console.log(this.content);
 		const libraries = this.content.libraries;
 		var libs = [];
 		var natives = [];

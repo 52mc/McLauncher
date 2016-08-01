@@ -9,7 +9,7 @@ module.exports = {
 			home: gmhome,
 			version: vf,
 			game: path.join(vf, 'game/'),
-			assets: path.join(vf, 'assets/'),
+			assets: path.join(gmhome, 'assets/'),
 			libs: path.join(vf, 'libraries/'),
 			natives: path.join(vf, 'natives/'),
 			temps: path.join(vf, 'nativeTemps/'),

@@ -5,7 +5,8 @@
   "main": "enter.js",
   "scripts": {
     "start": "electron ./app/enter.js",
-    "watch": "NODE_ENV=local gulp watch"
+    "watch": "NODE_ENV=local gulp watch",
+    "watchw": "set NODE_ENV=local && gulp watch"
   },
   "keywords": [
     "McLauncher",

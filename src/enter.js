@@ -23,8 +23,9 @@ var createWindow = function () {
     width: 500,
     height: 300,
     resizable: false,
-    // frame: false,
-    titleBarStyle: 'hidden'
+    frame: false,
+    titleBarStyle: 'hidden',
+    skipTaskbar: true
   });
 
   // 启用开发工具。
@@ -85,5 +86,3 @@ ipcMain.on('open-file-dialog', function(event, callback){
 ipcMain.on('show-folder', function(event, fullPath){
   helper.showFolder(fullPath);
 });
-
-console.log(process.platform);

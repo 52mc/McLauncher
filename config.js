@@ -11,6 +11,8 @@ var config = {
 	"debug": false
 };
 
+console.info('ENV:', process.env.NODE_ENV);
+
 if (process.env.NODE_ENV === 'local' || process.env.NODE_ENV === 'development') {
 	// 开发模式
 	config.debug = true;
