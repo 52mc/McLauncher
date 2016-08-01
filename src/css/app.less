@@ -10,12 +10,6 @@
 @color3: #7FDA89;
 @color4: #E6F99D;
 body {
-	padding: 20px;
-	position: absolute;
-	left: 0;
-	right: 0;
-	top: 0;
-	bottom: 0;
 	-webkit-app-region: drag;
 	overflow: hidden;
 }
@@ -23,26 +17,37 @@ button, a{
 	-webkit-app-region: no-drag!important;
 	outline: none;
 }
+
 body.theme-default {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
 	color: #444;
 	background: #c3deff url("../assets/bg.png") no-repeat 50% 0;
 	background-size: cover;
-	.wrapper {
-		width: 65%;
-		margin: 0 auto;
-		position: absolute;
-		top: 10%;
-		bottom: 10%;
-		left: 5%;
-		right: 5%;
-	}
+}
+
+.body-wrapper{
+	padding: 20px;
+}
+
+.wrapper {
+	width: 65%;
+	margin: 0 auto;
+	position: absolute;
+	top: 10%;
+	bottom: 10%;
+	left: 5%;
+	right: 5%;
 }
 
 .home {
 	.app-version{
 		position: absolute;
 		bottom: -20px;
-		left: -55px;
+		left: -60px;
 		color: #fff;
 		font-size: 0.8rem;
 		opacity: 0.5;
@@ -105,6 +110,11 @@ body.theme-default {
 	.loading {
 		height: 40px;
 	}
+	.new-icon {
+		width: 28px;
+		height: 11px;
+		margin-left: 8px;
+	}
 }
 // settings
 .settings {
@@ -120,10 +130,8 @@ body.theme-default {
 			display: inline-block;
 			width: 80px;
 		}
-		.cl > input {
-			&.sub {
-				width: 20%;
-			}
+		.sub {
+			width: 20%;
 		}
 		.control {
 			font-size: 0.8rem;
@@ -137,7 +145,7 @@ body.theme-default {
 				border-color: #7ebaff;
 			}
 		}
-		.open-game-fd {
+		.open-game-fd,.reset-btn {
 			font-size: 0.9em;
 			text-decoration: underline;
 		}
@@ -153,6 +161,7 @@ body.theme-default {
 			background: #dee9fa;
 			color: #7ebaff;
 			cursor: pointer;
+			text-decoration: none;
 			&:hover {
 				background: #7ebaff;
 				color: #fff;
@@ -318,7 +327,7 @@ body.theme-default {
 .space-star.star-animate {
 	animation: slide 15s linear infinite;
 	background: url("../assets/stars.svg") center center;
-	background-size: 240px;
+	background-size: 400px;
 	z-index: 1;
 }
 .animate-spin{

@@ -17,5 +17,7 @@
     <a class="version" href="{{lock ? 'javascript:;' : '#/version'}}" ng-disabled="lock">已选版本{{version}}</a>
     <p class="message">{{message}}</p>
   </div>
-  <span class="app-version">v{{appVersion}}</span>
+  <span class="app-version">当前版本：v{{appVersion}}
+     <a href="javascript:;" ng-click="openNewVersionUrl()"><img class="new-icon" ng-if="newVersion.new" src="./assets/new.gif"/></a>
+  </span>
 </div>

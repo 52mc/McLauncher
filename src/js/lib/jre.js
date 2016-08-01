@@ -36,13 +36,15 @@ exports.loadJre = function (){
 			local = bin;
 			return this.localJreVersion();
 		}).then((version) => {
-			console.log(111,version);
-			resolve({
-				path: local,
-				version: version
-			});
+			if(version === null){
+				reject('没有JAVA环境');
+			} else {
+				resolve({
+					path: local,
+					version: version
+				});
+			}
 		}).catch((err) => {
-			console.log(222,err);
 			reject(err);
 		});
 	});

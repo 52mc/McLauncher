@@ -7,10 +7,10 @@ angular.module('home', [
 		require('./download')
 	])
 	.controller('HomeCtrl', [
-		'$scope', 'McConfig', 'Notice', 'MinecraftCore', 'MinecraftLibraries', 'MinecraftAssets', 'LaunchMinecraft',
-		function($scope, McConfig, Notice, MinecraftCore, MinecraftLibraries, MinecraftAssets, LaunchMinecraft) {
+		'$scope', 'McConfig', 'Notice', 'Updater', 'IPC', 'MinecraftCore', 'MinecraftLibraries', 'MinecraftAssets', 'LaunchMinecraft',
+		function($scope, McConfig, Notice, Updater, IPC, MinecraftCore, MinecraftLibraries, MinecraftAssets, LaunchMinecraft) {
 
-			$scope.appVersion = pkg.version
+			$scope.appVersion = pkg.version;
 
 			$scope.menus = [{
 				icon: 'icon-settings animate-spin',
@@ -135,6 +135,19 @@ angular.module('home', [
 				DownloadMinecraftProcess.start();
 				return;
 			};
+			// 检查更新
+			const Update = Updater.check();
+			Update.then(res => {
+				$scope.newVersion = {
+					new: $scope.appVersion !== res.version,
+					version: res.version,
+					viewUrl: res.url,
+					description: res.description
+				}
+				$scope.openNewVersionUrl = function (){
+					IPC.send('open-url', res.url);
+				}
+			});
 		}
 	])
 

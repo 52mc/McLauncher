@@ -40,6 +40,13 @@ angular.module('settings', [require('./factory')])
 			IPC.send('show-folder', fd.game);
 		}
 
+		$scope.resetAreaToDefault = function (){
+			$scope.config.area = {
+				width: 854,
+				height: 480
+			};
+		}
+
 		// 配置项中jre为空时，自动执行查找jre
 		if($scope.config.jre.home === ''){
 			$scope.autoFindJava();

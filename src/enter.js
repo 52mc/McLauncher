@@ -10,13 +10,18 @@ var appIcon = null;
 
 app.setAppUserModelId('me.eeve.mc.launcher.' + pkg.version.replace('.','_'));
 
+// 关闭应用
+function closeApp(app, force){
+  if (force || process.platform != 'darwin') {
+    app.quit();
+  }
+}
+
 // 当所有窗口被关闭了，退出。
 app.on('window-all-closed', function() {
   // 在 OS X 上，通常用户在明确地按下 Cmd + Q 之前
   // 应用会保持活动状态
-  if (process.platform != 'darwin') {
-    app.quit();
-  }
+  closeApp(app);
 });
 
 var createWindow = function () {
@@ -59,7 +64,9 @@ app.on('ready', function() {
     { label: '报告BUG', type: 'normal', click: function() {
       shell.openExternal('https://github.com/52mc/McLauncher/issues');
     } },
-    { label: '退出Mc启动器', type: 'normal', role: 'close' }
+    { label: '退出Mc启动器', type: 'normal', click: function() {
+      closeApp(app, true);
+    } }
   ]);
   appIcon.setToolTip('This is my application.');
   appIcon.setContextMenu(contextMenu);
@@ -87,4 +94,8 @@ ipcMain.on('open-file-dialog', function(event, callback){
 
 ipcMain.on('show-folder', function(event, fullPath){
   helper.showFolder(fullPath);
+});
+
+ipcMain.on('open-url', function(event, url){
+  shell.openExternal(url);
 });

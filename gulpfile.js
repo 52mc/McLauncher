@@ -78,6 +78,7 @@ gulp.task('package', ['build'], function (){
 	packager({
 		arch: ['ia32','x64'],
 		platform: ['linux', 'win32', 'darwin'],
+		// platform: ['darwin'],
 		icon: path.join(__dirname, 'app', 'assets', 'tray'),
 		'app-version': pkg.version,
 		'app-copyright': 'Copyright (c) 2016 eeve All Rights Reserved.',

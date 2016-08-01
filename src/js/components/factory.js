@@ -40,4 +40,20 @@ angular.module('factory', [])
 			}
 		}
 	})
+
+	.factory('Updater', ['$http', function($http) {
+		return {
+			check: () => {
+				return $http({
+					method: 'GET',
+					url: 'https://raw.githubusercontent.com/52mc/McLauncher/master/update.json',
+					responseType: 'json'
+				}).then((res) => {
+					return res.data;
+				},(res) => {
+					console.error('与更新服务器联系时发生错误...', res);
+				});
+			}
+		}
+	}])
 ;

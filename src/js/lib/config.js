@@ -2,6 +2,7 @@ const fs = require('fs');
 const io = require('./io');
 
 module.exports = class McConfig {
+
   _default = {
     player: 'Unknow',
     xmx: 256,
