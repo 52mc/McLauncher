@@ -3,25 +3,35 @@ var webpack = require('webpack');
 var config = require('./config');
 var debug = config.debug;
 
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 var plugins = [
   new webpack.DefinePlugin({
     __DEV__: debug
   }),
   new webpack.BannerPlugin('This file is created by eeve.'),
   new webpack.optimize.OccurenceOrderPlugin(),
+  new webpack.NoErrorsPlugin(),
   new webpack.HotModuleReplacementPlugin(),
-  new webpack.NoErrorsPlugin()
+  new HtmlWebpackPlugin({
+    inject: true,
+    template: './src/index.ejs',
+    title: 'McLauncher - [由eeve开发的一款全平台的Minecraft启动器]',
+    hash: true,
+    chunks: [ 'js/app' ],
+    css: [ "css/app.css" ],
+    devServer: 'http://localhost:8080'
+  })
 ];
 
 if(!debug){
-  plugins.push(
+  plugins = plugins.concat([
     new webpack.optimize.UglifyJsPlugin({
       test: /(\.jsx|\.js)$/,
       compress: {
         warnings: false
       }
     })
-  );
+  ]);
 }
 
 var config = {

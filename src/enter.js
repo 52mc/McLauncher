@@ -1,3 +1,4 @@
+const DEBUG = process.env.NODE_ENV === 'local';
 // 使用内置模块时禁用旧样式
 process.env.ELECTRON_HIDE_INTERNAL_MODULES = 'true'
 const pkg = require('./package.json');
@@ -39,7 +40,7 @@ var createWindow = function () {
   // mainWindow.webContents.openDevTools();
 
   // 加载应用的 index.html
-  mainWindow.loadURL('file://' + __dirname + '/index.html');
+  mainWindow.loadURL(DEBUG ? 'http://localhost:8080/index.html': 'file://' + __dirname + '/index.html');
 
   // 打开开发工具
   // mainWindow.openDevTools();

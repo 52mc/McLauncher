@@ -4,8 +4,8 @@
   "description": "基于Electron开发的Minecraft启动器",
   "main": "enter.js",
   "scripts": {
-    "start": "electron ./app/enter.js",
-    "watch": "NODE_ENV=local gulp watch",
+    "start": "NODE_ENV=local electron ./app/enter.js",
+    "watch": "NODE_ENV=local gulp dev",
     "watchw": "set NODE_ENV=local && gulp watch",
     "package": "gulp package"
   },
@@ -44,6 +44,7 @@
     "gulp-less": "^3.1.0",
     "gulp-uglify": "^1.5.4",
     "gulp-util": "^3.0.7",
+    "html-webpack-plugin": "^2.22.0",
     "json-loader": "^0.5.4",
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
@@ -56,7 +57,8 @@
     "spinkit": "^1.2.5",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
-    "webpack": "^1.13.1"
+    "webpack": "^1.13.1",
+    "webpack-dev-server": "^1.14.1"
   },
   "dependencies": {}
 }

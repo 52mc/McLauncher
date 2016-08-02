@@ -9,7 +9,6 @@ angular.module('home', [
 	.controller('HomeCtrl', [
 		'$scope', 'McConfig', 'Notice', 'Updater', 'IPC', 'MinecraftCore', 'MinecraftLibraries', 'MinecraftAssets', 'LaunchMinecraft',
 		function($scope, McConfig, Notice, Updater, IPC, MinecraftCore, MinecraftLibraries, MinecraftAssets, LaunchMinecraft) {
-
 			$scope.appVersion = pkg.version;
 
 			$scope.menus = [{
@@ -148,6 +147,7 @@ angular.module('home', [
 					IPC.send('open-url', res.url);
 				}
 			});
+
 		}
 	])
 

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title><%= htmlWebpackPlugin.options.title || 'Webpack App'%></title>
+    <% for (var css in htmlWebpackPlugin.options.css) { %>
+    <link rel="stylesheet" href="<%= htmlWebpackPlugin.options.css[css] %>" />
+    <% } %>
+  </head>
+  <body class="theme-default" ng-app="App">
+    <div class="body-wrapper">
+      <div class="wrapper view-frame" ng-view></div>
+      <div class="space-star star-animate"></div>
+    </div>
+    <% for (var chunk in htmlWebpackPlugin.files.chunks) { %>
+    <script src="<%= htmlWebpackPlugin.files.chunks[chunk].entry %>"></script>
+    <% } %>
+    <% if (htmlWebpackPlugin.options.devServer) { %>
+    <script src="<%= htmlWebpackPlugin.options.devServer%>/webpack-dev-server.js"></script>
+    <% } %>
+  </body>
+</html>

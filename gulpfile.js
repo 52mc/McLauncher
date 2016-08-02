@@ -2,6 +2,7 @@ var path = require('path');
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 var webpack = require('webpack');
+var WebpackDevServer = require("webpack-dev-server");
 var del = require('del');
 var less = require('gulp-less');
 var uglify = require('gulp-uglify');
@@ -16,7 +17,7 @@ gulp.task('clean', function() {
 });
 
 gulp.task('copy', function() {
-	gulp.src(['./src/index.html', './src/helper.js'])
+	gulp.src(['./src/helper.js'])
 		.pipe(gulp.dest('./app'));
 	gulp.src(['./src/template/**'])
 		.pipe(gulp.dest('./app/template'));
@@ -46,33 +47,31 @@ gulp.task('compress', function () {
 });
 
 gulp.task('webpack', function(callback) {
-	webpack(webpackconf, function(err, stats) {
-		if (err) {
-			throw new gutil.PluginError('webpack', err);
-		}
-		// windows下会报错
-		// process.platform -> win32
-		process.platform !== 'win32' && gutil.log('[webpack]', stats.toString({
-			modules: false,
+	new WebpackDevServer(webpack(webpackconf), {
+		// server and middleware options
+		contentBase: './app',
+		stats: {
 			colors: true
-		}));
-		callback();
-	});
+		}
+  }).listen(8080, "localhost", function(err) {
+    if(err) throw new gutil.PluginError("webpack-dev-server", err);
+    gutil.log("[webpack-dev-server]", "dev server starting...");
+  });
 });
 
-gulp.task('build', ['clean', 'copy', 'less', 'compress', 'webpack']);
-gulp.task('default', ['build']);
-
-gulp.task('watch', ['build'], function () {
+gulp.task('watch', function () {
     gulp.watch('./src/css/*.less', ['less']);
     gulp.watch(['./src/js/**/*.js'], ['webpack']);
-    gulp.watch(['./src/index.html',
-				'./src/enter.js',
+    gulp.watch(['./src/enter.js',
 				'./src/helper.js',
 				'./src/template/*.html',
         './package.json',
         './src/assets/**/*.*'], ['copy']);
 });
+
+gulp.task('build', ['clean', 'copy', 'less', 'compress', 'webpack']);
+gulp.task('default', ['build']);
+gulp.task('dev', ['watch', 'build']);
 
 gulp.task('package', ['build'], function (){
 	packager({

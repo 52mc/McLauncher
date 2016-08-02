@@ -44,6 +44,23 @@ module.exports = class StandardLibraries {
 			const allows = this._getAllowOsForLib(item);
 			// console.log(`${index+1}\t${allows}\t${item.name}`);
 			var lib = {};
+			// force
+			if(!item.downloads){
+				// net.minecraftforge:forge:1.10.2-12.18.1.2027
+				const t = item.name.split(':');
+				var local = `${t[0].replace(/\./g, sep)}${sep}${t[1]}${sep}${t[2]}${sep}${t[1]}-${t[2]}.jar`;
+				lib = this._transferStandardLib({
+					path: local,
+					url: `${item.url}${local}`,
+					sha1: '',
+					size: 0,
+					force: true
+				});
+				lib.allows = allows;
+				libs.push(lib);
+				return;
+			}
+			// normal
 			const artifact = item.downloads.artifact;
 			if(artifact !== undefined){
 				lib = this._transferStandardLib(artifact);
@@ -84,7 +101,7 @@ module.exports = class StandardLibraries {
 			filename: path.basename(absolute),
 			url: artifact.url,
 			sha1: artifact.sha1,
-			size: artifact.size
+			size: artifact.force ? 0 : artifact.size
 		};
 		return standardlib;
 	}

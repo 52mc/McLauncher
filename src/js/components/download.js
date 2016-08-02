@@ -130,7 +130,7 @@ angular.module('download', [
 								// 跳过已经下载的lib
 								if (fs.existsSync(fullpath)) {
 									var stat = yield IO.stat(fullpath);
-									if(stat && stat.size === lib.size){
+									if(stat && (lib.size === 0 || stat.size === lib.size)){
 										console.info(`lib exists [${filename}] [${i + 1}/${libraries.length}] skip.`);
 										TaskEvent.emit('libraries_process', {
 											count: i + 1,
