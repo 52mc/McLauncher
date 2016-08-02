@@ -51,7 +51,7 @@ gulp.task('webpack', function(callback) {
 			throw new gutil.PluginError('webpack', err);
 		}
 		// windows下会报错
-		// process.platform -> win32 or win64
+		// process.platform -> win32
 		process.platform !== 'win32' && gutil.log('[webpack]', stats.toString({
 			modules: false,
 			colors: true

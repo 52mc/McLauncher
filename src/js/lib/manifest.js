@@ -40,8 +40,10 @@ module.exports = class Manifest {
 		} else {
 			const DownEvent = io.downloadFileToDisk(this.url, this.local, 5);
 			DownEvent.on('done', () => {
-				this.content = this._readCache(this.local);
-				this._transfer();
+				setTimeout(() => {
+					this.content = this._readCache(this.local);
+					this._transfer();
+				});
 			});
 			DownEvent.on('error', (err) => {
 				console.log(`manifest文件拉取失败...${err}`);
