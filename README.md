@@ -2,6 +2,15 @@
 
 基于Electron开发的Minecraft启动器
 
+## Screen Capture
+
+![http://oc17pky6v.bkt.clouddn.com/home.png](http://oc17pky6v.bkt.clouddn.com/home.png)
+
+![http://oc17pky6v.bkt.clouddn.com/versions.png](http://oc17pky6v.bkt.clouddn.com/versions.png)
+
+![http://oc17pky6v.bkt.clouddn.com/setting.png](http://oc17pky6v.bkt.clouddn.com/setting.png)
+
+
 ## How to Use
 
 ```bash
