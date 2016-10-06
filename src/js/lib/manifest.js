@@ -1,5 +1,6 @@
 const fs = require('fs');
 const io = require('./io');
+const url = require('./url');
 
 module.exports = class Manifest {
 	/**
@@ -94,7 +95,7 @@ module.exports = class Manifest {
 		this.getAllVersions().map(item => {
 			list[item.id] = {
 				type: item.type,
-				json: item.url
+				json: url.getVersionJsonForChinaUser(item.url)
 			};
 		});
 		return list;

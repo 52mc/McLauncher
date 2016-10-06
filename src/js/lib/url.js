@@ -1,9 +1,13 @@
 const cdn = 'http://7xwoig.com1.z0.glb.clouddn.com';
 
-const manifest = `https://launchermeta.mojang.com/mc/game/version_manifest.json`;
+const mojang    = 'https://launchermeta.mojang.com/mc/game';
+const mojang_cdn = 'http://oelvltuc8.bkt.clouddn.com';
+
+const manifest = `${mojang_cdn}/version_manifest.json`;
 const client = `${cdn}/versions/<version>.jar`;
 const versions = `${cdn}/versions/list.json`;
 const libraries    = 'https://libraries.minecraft.net';
+
 const librariesCN  = `${cdn}/libraries`;
 const assetsCDN = `${cdn}/assets/<index>/<hash>`;
 const assetsJsonCDN = `${cdn}/assets/<key>.json`
@@ -41,5 +45,9 @@ module.exports = {
       const _url =assetsJsonCDN.replace(/<key>/g, key);
       console.log('download assetsJson url:', _url);
       return _url;
+    },
+
+    getVersionJsonForChinaUser(url){
+    	return url.replace(mojang, mojang_cdn);
     }
 }

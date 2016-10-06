@@ -1,7 +1,6 @@
 var path = require('path');
 var webpack = require('webpack');
-var config = require('./config');
-var debug = config.debug;
+var debug = process.env.NODE_ENV === 'local' || process.env.NODE_ENV === 'development';
 
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var plugins = [
@@ -45,7 +44,7 @@ var config = {
     // 页面相对路径
     publicPath: "/",
     // 生成文件所在路径
-    path: path.resolve(__dirname, "app"),
+    path: path.resolve(__dirname, "dist"),
     // 文件名
     filename: '[name].js'
   },
